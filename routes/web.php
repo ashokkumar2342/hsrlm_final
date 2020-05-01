@@ -16,7 +16,7 @@ Route::get('/func', function () {
 });
  
 Route::get('/', function () {
-    return view('front.home');
+      return redirect('admin/login');
  
 });
 Route::get('barcode', 'BarcodeController@barcodeShow');

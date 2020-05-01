@@ -3,7 +3,7 @@
             <!-- Logo -->
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>{{ date('d-m-Y') }}</b></span>
+                <span class="logo-mini"><b>Dashboard</b></span>
                 <!-- logo for regular state and mobile devices -->
                 
             </a>
@@ -16,51 +16,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                @includeIf('admin.include.hot_menu_top', ['menu_type_id' =>1])
+                
                 <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-              <li><a href="#" title="">{{ date('d-M-Y') }}</a></li>
-            <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              
-              
-            </a>
+          
            
-          </li>
-           
-         {{--  <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sibling <i class="fa fa-users"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 Student</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                   
-                  @foreach ($students as $student)
-                    @php
-                    $admin=App\Admin::where('id',$notification->user_id)->first();
-                     $profile = route('admin.profile.photo.show',$admin->profile_pic); 
-                   @endphp
-                  <li>start message
-                    <a href="{{ $student->link }}">
-                      <div class="pull-left">
-                        <img src="{{ $profile }}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        {{ $student->name}}
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p>{{ $student->message }}</p>
-                    </a>
-                  </li>
-                  @endforeach
-                </ul>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li> --}}
+         
             <button type="hidden" class="hidden" id="admin_photo_refrash" onclick="callAjax(this,'{{ route('admin.profile.photo.refrash') }}','photo_refrash')">img ShoW</button>
             <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 

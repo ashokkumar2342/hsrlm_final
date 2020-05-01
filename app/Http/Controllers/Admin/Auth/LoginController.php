@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Admin;
+
 use App\Helpers\MailHelper;
-use App\Http\Controllers\Controller;
-use App\Student;
+use App\Http\Controllers\Controller; 
+use App\User;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -46,35 +46,31 @@ class LoginController extends Controller
         $this->middleware('student.guest');
     }
 
-    public function index(){ return 'd';
+    public function index(){
         return redirect()->route('admin.login');
         
     }
     
     
-    public function showLoginForm(){ 
+    public function showLoginForm(){
         return view('admin.auth.login');
     }
     public function login(Request $request){ 
      
           $this->validate($request, [
-              'email' => 'required', 
+              'user_id' => 'required', 
               'password' => 'required',
-              'captcha' => 'required|captcha' 
+             
           ]);
-          $admins=Admin::where('email',$request->email)->first();
-          if (!empty($admins)) { 
-            if ($admins->status==2) {
-            return redirect()->route('student.resitration.verification',Crypt::encrypt($admins->id)); 
-            }
-          }
+          $admins=User::where('user_id',$request->user_id)->first();
+         
           $credentials = [
-                     'email' => $request['email'],
-                     'password' => $request['password'],
-                     'status' => 1,
+                     'user_id' => $request['user_id'],
+                     'password' => $request['password']
+                     
                  ]; 
             if(auth()->guard('admin')->attempt($credentials)) {
-                if (Auth::guard('admin')->user()->user_type==1) {
+                if (Auth::guard('admin')->user()->user_type_id==1) {
                     return redirect()->route('admin.dashboard');
                 }else{
                     return redirect()->route('admin.dashboard');

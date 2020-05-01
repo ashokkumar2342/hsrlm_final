@@ -36,38 +36,10 @@ class DashboardController extends Controller
      */
     public function index()
     {  $admins=Auth::guard('admin')->user();
-        if ($admins->role_id==1) {
+        if ($admins->user_type_id==1) { 
         //Administrator
-            
-        $date = date('Y-m-d');
-        $present = StudentAttendance::where('attendance_type_id',1)
-                    ->Where('date',$date)
-                    ->OrWhere('attendance_type_id',3)
-                    ->OrWhere('attendance_type_id',4)->count();
-        $absent = StudentAttendance::where('attendance_type_id',2) 
-                    ->Where('date',$date)
-                    ->count();
+           return view('admin/dashboard/admin_dashboard');
         
-        $date = date('Y-m-d');
-        $students = Student::where('student_status_id',1)->count();
-        $studentDOBs = Student::whereMonth('dob',date('m'))
-                            ->whereDay('dob',date('d'))
-                            ->get(); 
-        // $newRegistraions = ParentRegistration::get();  
-        $feeDues = StudentFeeDetail::where('paid',0)->get()->sum('fee_amount');                      
-         $feePaid = StudentFeeDetail::where('paid',1)->get()->sum('fee_amount');
-         $classTypes=ClassType::orderBy('id','ASC')->get(); 
-            return view('admin/dashboard/dashboard',compact('students','studentDOBs','present','absent','feeDues','feePaid','classTypes','students','admins'));
-        }elseif($admins->role_id==12) {
-
-        //student    
-        $student = Auth::guard('admin')->user();
-        $studentUser = StudentUserMap::where('userid',$student->id)->first();
-        if (!empty($studentUser)) {
-            return view('admin/dashboard/student_dashboard');
-        }else{
-            return view('admin/dashboard/new_student_dashboard');
-        }
         
         }elseif($admins->role_id==2) {
         //Chairman
@@ -87,40 +59,8 @@ class DashboardController extends Controller
         }elseif($admins->role_id==7) {
         //Transport Manager    
             return view('admin/dashboard/dashboard_'.'7');
-        }elseif($admins->role_id==8){ 
-        //Account Officer    
-            return view('admin/dashboard/dashboard_'.'8');
-        }elseif($admins->role_id==9) {
-        //Accountant    
-            return view('admin/dashboard/dashboard_'.'9');
-        }elseif($admins->role_id==10) {
-        //Clerk    
-            return view('admin/dashboard/dashboard_'.'10');
-        }elseif($admins->role_id==11) {
-        //Cashier    
-            return view('admin/dashboard/dashboard_'.'11');
-        }elseif($admins->role_id==13) {
-        //Library Staff    
-            return view('admin/dashboard/dashboard_'.'13');
-        }elseif($admins->role_id==14) {
-        //Store Incharge    
-            return view('admin/dashboard/dashboard_'.'14');
-        }elseif($admins->role_id==15) {
-        //Examination Controller    
-            return view('admin/dashboard/dashboard_'.'15');
-        }elseif($admins->role_id==16) {
-        //Public Relation Officer    
-            return view('admin/dashboard/dashboard_'.'16');
-        }elseif($admins->role_id==17) {
-        //Reception Operator    
-            return view('admin/dashboard/dashboard_'.'17');
-        }elseif($admins->role_id==18) {
-        //Other Staff    
-            return view('admin/dashboard/dashboard_'.'18');
-        }elseif($admins->role_id==19) {
-        //Timetable Manager    
-            return view('admin/dashboard/dashboard_'.'19');
         }
+         
 
         
         
