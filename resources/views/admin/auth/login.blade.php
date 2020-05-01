@@ -123,10 +123,10 @@
                                                    {{--{{ Auth::user()->name }}  --}}
                                                   {!! Form::open(['route'=>'admin.login']) !!}
                                                     <div class="form-group has-feedback">
-                                                      {{ Form::label('email','Email',['class'=>' control-label']) }}
-                                                      {!! Form::email('email', '', ['class'=>'form-control', 'placeholder'=>'mail']) !!}
-                                                      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                                                      <p class="text-danger">{{ $errors->first('email') }}</p>
+                                                      {{ Form::label('user_id','User Id',['class'=>' control-label']) }}
+                                                      {!! Form::text('user_id', '', ['class'=>'form-control', 'placeholder'=>'User Id / Mobile No']) !!}
+                                                      <span class="fa fa-mobile form-control-feedback"></span>
+                                                      <p class="text-danger">{{ $errors->first('Mobile No') }}</p>
                                                     </div>
                                                     
                                                     <div class="form-group has-feedback">
@@ -135,16 +135,7 @@
                                                       <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                                                       <p class="text-danger">{{ $errors->first('password') }}</p>
                                                     </div>
-                                                    <div class="form-group has-feedback">
-                                                      <div class="captcha">
-                                                           <span>{!! captcha_img('math') !!}</span>
-                                                           <button type="button" class="btn btn-success"><i class="fa fa-refresh" id="refresh"></i></button>
-                                                           </div>
-                                                        </div>
-                                                        <div class="form-group has-feedback">
-                                                           <input id="captcha" type="text" class="form-control" placeholder="Enter Captcha" name="captcha"> 
-                                                            <p class="text-danger">{{ $errors->first('captcha') }}</p>
-                                                        </div>                  
+                                                                    
                                                     <div class="row">
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -153,9 +144,7 @@
                                                           </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                           <div class="col-lg-6">
-                                                             <a href="{{ route('student.resitration.firststep') }}">New Admission</a>
-                                                        </div>
+                                                            
                                                         <div class="col-lg-6">
                                                            <a href="#" onclick="callPopupLarge(this,'{{ route('admin.forget.password') }}')">Forgot Password </a>
                                                         </div>

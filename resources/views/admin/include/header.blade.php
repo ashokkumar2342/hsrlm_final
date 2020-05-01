@@ -1,15 +1,11 @@
- @php
-     $notifications=App\Model\Notification::orderBy('id','DESC')->get(); 
-     $academicYear=App\Model\AcademicYear::where('status',1)->first(); 
-      
- @endphp
+ 
   <header class="main-header">
             <!-- Logo -->
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>{{ date('d-m-Y') }}</b></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">{{ $academicYear->name }}</span>
+                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -28,44 +24,11 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               
-               @foreach ($notifications as $notification)
-                 <span class="label label-success">{{ $notification->count('id') }}</span> 
-               @endforeach
+              
             </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                   
-                  @foreach ($notifications as $notification)
-                    @php
-                    $admin=App\Admin::where('id',$notification->user_id)->first();
-                     $profile = route('admin.profile.photo.show',$admin->profile_pic); 
-                   @endphp
-                  <li><!-- start message -->
-                    <a href="{{ $notification->link }}">
-                      <div class="pull-left">
-                        <img src="{{ $profile }}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        {{ $notification->admins->first_name or ''}}
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p>{{ $notification->message }}</p>
-                    </a>
-                  </li>
-                  @endforeach
-                </ul>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
+           
           </li>
-          @php
-            $userIdBySibling=new App\Helper\MyFuncs();    
-           $siblings= $userIdBySibling->getSiblingById(); 
-           $students=App\Student::whereIn('id',$siblings)->get();
-          @endphp
+           
          {{--  <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sibling <i class="fa fa-users"></i>
             </a>
@@ -98,7 +61,7 @@
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li> --}}
-            <button type="hidden" class="hidden" id="admin_photo_refrash" onclick="callAjax(this,'{{ route('admin.profile.photo.refrash') }}','photo_refrash')">img Shoe</button>
+            <button type="hidden" class="hidden" id="admin_photo_refrash" onclick="callAjax(this,'{{ route('admin.profile.photo.refrash') }}','photo_refrash')">img ShoW</button>
             <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
               <div id="photo_refrash">

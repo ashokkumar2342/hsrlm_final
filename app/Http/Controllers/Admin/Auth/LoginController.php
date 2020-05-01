@@ -46,13 +46,13 @@ class LoginController extends Controller
         $this->middleware('student.guest');
     }
 
-    public function index(){
+    public function index(){ return 'd';
         return redirect()->route('admin.login');
         
     }
     
     
-    public function showLoginForm(){
+    public function showLoginForm(){ 
         return view('admin.auth.login');
     }
     public function login(Request $request){ 

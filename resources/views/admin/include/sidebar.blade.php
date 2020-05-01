@@ -29,46 +29,9 @@
          {{-- <a href="{{ route(''.App\Helper\MyFuncs::hotMenu()) }}" title="">aa</a> --}}
 
         
-         @php
-            $accountSubMenuUrls = App\Helper\MyFuncs::mainMenu(1);
-            $configrations = App\Helper\MyFuncs::mainMenu(2);
-            $students = App\Helper\MyFuncs::mainMenu(3);
-            $Finances = App\Helper\MyFuncs::mainMenu(4);
-            $Homeworks = App\Helper\MyFuncs::mainMenu(8);
-            $Attendances = App\Helper\MyFuncs::mainMenu(9);
-            $Certificates = App\Helper\MyFuncs::mainMenu(10);
-            $FeeCertificates = App\Helper\MyFuncs::mainMenu(11);
-            $UserActivitys = App\Helper\MyFuncs::mainMenu(12);
-            $RegistrationForms = App\Helper\MyFuncs::mainMenu(13);
-            $Transports = App\Helper\MyFuncs::mainMenu(14);
-            $Exams = App\Helper\MyFuncs::mainMenu(15);
-            $SMSs = App\Helper\MyFuncs::mainMenu(16);
-            $menus=App\Helper\MyFuncs::showMenu();
-            $userHasMenus=App\Helper\MyFuncs::userHasMinu();
-            $menuTypes = App\Model\MinuType::whereIn('id',$userHasMenus)->orderBy('sorting_id','asc')->get();
-           
-         @endphp
-
-         @foreach ($menuTypes as $menuType)
-         @php
-           $subMenus = App\Helper\MyFuncs::mainMenu($menuType->id);
-         @endphp
-        
-           <li class="treeview">
-             <a href="#">
-                 <i class="fa {{ $menuType->icon }}"></i>
-                 <span>{{ $menuType->name }}</span>
-                 <span class="pull-right-container">
-                   <i class="fa fa-angle-left pull-right"></i>
-                 </span>
-             </a>
-             <ul class="treeview-menu">
-              @foreach ($subMenus as $subMenu)
-                 <li><a href="{{ route(''.$subMenu->url) }}"><i class="fa fa-circle-o"></i>{{ $subMenu->name }} </a></li>               
-              @endforeach               
-             </ul> 
-         </li>     
-         @endforeach
+         
+            
+       
  {{--         <li class="treeview">
              <a href="#">
                  <i class="fa fa-user text-danger"></i>
