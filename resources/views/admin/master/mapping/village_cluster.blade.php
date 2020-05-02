@@ -7,7 +7,7 @@
                   {{ csrf_field() }}
                <div class="col-md-4">
                  <div class="form-group col-md-12">
-                   {{ Form::label('Village SHG','Village SHG',['class'=>' control-label']) }}                         
+                   {{ Form::label('Cluster SHG','Cluster SHG',['class'=>' control-label']) }}                         
                    <div class="form-group">  
                           <select class="form-control" id="user_select_box"  multiselect-form="true"  name="user"  onchange="callAjax(this,'{{ route('admin.cluster.village.to.user') }}'+'?id='+this.value,'user_map_list')" > 
                            <option value="" disabled selected>Select User</option>

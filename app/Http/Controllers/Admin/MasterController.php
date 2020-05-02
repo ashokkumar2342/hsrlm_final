@@ -251,16 +251,16 @@ class MasterController extends Controller
     public function villageCluster()
     {     
       $user =new User();
-      $users =$user->getUserByUserTypeId(4);
+      $users =$user->getUserByUserTypeId(5);
       $data=array();
       $data['users'] = $users;
       return view('admin.master.mapping.village_cluster',$data);
     }
     public function villageClusterToUser(Request $request)
     {$user_id=$request->id;
-      $VillageFarmerMap=VillageClusterMap::where('village_shg_id',$request->id)->pluck('cluster_id')->toArray(); 
+      $VillageFarmerMap=VillageClusterMap::where('cluster_shg_id',$request->id)->pluck('village_id')->toArray(); 
       $user =new User();
-      $to_users =$user->getUserByUserTypeId(5);
+      $to_users =$user->getUserByUserTypeId(4);
       $data=array();
       $data['to_users'] = $to_users;
       $data['VillageFarmerMap'] = $VillageFarmerMap;
@@ -271,7 +271,7 @@ class MasterController extends Controller
     { 
       $rules=[
           'user' => 'required',
-          'cluster' => 'required',
+          'village' => 'required',
         ];
       $validator = Validator::make($request->all(),$rules);
       if ($validator->fails()) {
@@ -282,12 +282,12 @@ class MasterController extends Controller
           return response()->json($response);// response as json
       }
         else {
-          $VillageFarmerMapold =VillageClusterMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
-          $uctOld=VillageClusterMap::whereIn('id',$VillageFarmerMapold)->update(['cluster_id'=>0]);
-          foreach ($request->cluster as $key => $value) {
-           $VillageFarmerMap=VillageClusterMap::firstOrNew(['cluster_id'=>$value]); 
-           $VillageFarmerMap->cluster_id=$value; 
-           $VillageFarmerMap->village_shg_id=$request->user; 
+          $VillageFarmerMapold =VillageClusterMap::where('cluster_shg_id',$request->user)->pluck('id')->toArray();
+          $uctOld=VillageClusterMap::whereIn('id',$VillageFarmerMapold)->update(['village_id'=>0]);
+          foreach ($request->village as $key => $value) {
+           $VillageFarmerMap=VillageClusterMap::firstOrNew(['village_id'=>$value]); 
+           $VillageFarmerMap->village_id=$value; 
+           $VillageFarmerMap->cluster_shg_id=$request->user; 
            $VillageFarmerMap->save();
           }
           $response=['status'=>1,'msg'=>'Save Successfully'];
