@@ -10,11 +10,11 @@
 				{{ csrf_field() }}
 				<div class="row"> 
 					<div class="col-lg-12 form-group">
-						<label>Village Name</label>
+						<label>Village Name</label><span class="fa fa-asterisk"></span>
 						<input type="text" name="village_name" class="form-control" placeholder="Enter Village Name" value="{{ @$Villages->name }}" maxlength="100"> 
 					</div>
 					<div class="col-lg-12 form-group">
-						<label>Village Code</label>
+						<label>Village Code</label><span class="fa fa-asterisk"></span>
 						<input type="text" name="village_code" class="form-control" placeholder="Enter Village Code" value="{{ @$Villages->code }}" maxlength="5"> 
 					</div>
 					<div class="col-lg-12 text-center" style="padding-top: 10px">

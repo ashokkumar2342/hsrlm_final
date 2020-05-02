@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\Item;
+use App\Model\RateList;
 use App\Model\UserActivity;
 use App\Model\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MasterController extends Controller
@@ -19,6 +22,11 @@ class MasterController extends Controller
     public function villageList()
     {
         return view('admin.master.village.village_list');
+    }
+    public function villageListTable()
+    {
+        $Villages =Village::orderBy('name','ASC')->get();
+        return view('admin.master.village.village_list_table',compact('Villages'));
     }
 
     /**
@@ -70,15 +78,24 @@ class MasterController extends Controller
 
      public function itemsList()
     {
-        return view('admin.master.items.items_list');
+        $Items=Item::orderBy('name','ASC')->get();
+        return view('admin.master.items.items_list',compact('Items'));
     }
-    public function addItems()
+    public function addItems($id=null)
     {
-        return view('admin.master.items.add_form');
+      if ($id==null) {
+        $Items='';
+      }
+      if ($id!=null) {
+        $Items=Item::find(Crypt::decrypt($id));
+      }
+
+        return view('admin.master.items.add_form',compact('Items'));
     }
-    public function adminssionSeatStore(Request $request,$id=null)
+    public function storeItems(Request $request,$id=null)
       { 
           $rules=[
+             'items_name' => 'required', 
             ];
 
             $validator = Validator::make($request->all(),$rules);
@@ -90,25 +107,30 @@ class MasterController extends Controller
                 return response()->json($response);// response as json
             }
               else {
-               $adminssionSeat=AdmissionSeat::firstOrNew(['id'=>$id]);  
-               $adminssionSeat->academic_year_id=$request->academic_year_id;  
-               $adminssionSeat->class_id=$request->class_id;  
-               $adminssionSeat->total_seat=$request->total_seat;  
-               $adminssionSeat->form_fee=$request->from_fee;  
-               $adminssionSeat->from_date=$request->from_date;  
-               $adminssionSeat->last_date=$request->last_date; 
-               $adminssionSeat->test_date=$request->test_date; 
-               $adminssionSeat->retest_date=$request->retest_date; 
-               $adminssionSeat->result_date=$request->result_date;
-               if ($request->hasFile('attachment')) { 
-                $attachment=$request->attachment;
-                $filename='test_syllabus'.date('d-m-Y').time().'.pdf'; 
-                $attachment->storeAs('student/admissionschedule/syllabus/',$filename);
-                $adminssionSeat->syllabus=$filename;
+               $Items=Item::firstOrNew(['id'=>$id]);  
+               $Items->name=$request->items_name;
+               if ($request->hasFile('items_picture')) { 
+                $attachment=$request->items_picture;
+                $filename='items_picture'.date('d-m-Y').time().'.pdf'; 
+                $attachment->storeAs('student/itemspicture/picture/',$filename);
+                $Items->picture=$filename;
                 } 
-               $adminssionSeat->save();
+                $Items->save();
                 $response=['status'=>1,'msg'=>'Submit Successfully'];
               }     return response()->json($response);
         }
+     public function itemsImage(Request $request,$image)
+     {
+        return $itemsImage = Storage::disk('student')->get('itemspicture/picture/'.$image);           
+         return  response($itemsImage)->header('Content-Type', 'image/jpg');
+     }
+    //-----------------------------------------rate-list----------------------------------------
+    
+    public function rateList()
+    {   $Items=Item::orderBy('name','ASC')->get();
+        $RateLists=RateList::orderBy('purchase_rate','ASC')->get();
+        return view('admin.master.ratelist.rate_list',compact('Items','RateLists'));
+    }   
+       
 
 }

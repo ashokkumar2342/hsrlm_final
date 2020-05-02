@@ -11,13 +11,27 @@
                 <table class="table table-striped table-bordered table-hover" id="items_table">
                     <thead>
                         <tr>
-                            <th>header</th>
+                            <th class="text-nowrap">Item Name</th>
+                            <th class="text-nowrap">Item Picture</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($Items as $Item)
                         <tr>
-                            <td>data</td>
+                            <td>{{ $Item->name }}</td>
+                            <td>
+                                @php
+                             $itemsImage = route('admin.master.items.image',$Item->picture); 
+                            @endphp
+                                 <img  src="{{ ($Item->picture)? $itemsImage : asset('profile-img/user.png') }}" class="profile-user-img img-responsive img-circle">
+                            </td>
+                            <td>
+                                <a onclick="callPopupLarge(this,'{{ route('admin.master.add.items',Crypt::encrypt($Item->id))}}')" title="Edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
+                                <a href="" title="Edit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 

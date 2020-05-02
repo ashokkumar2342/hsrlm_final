@@ -13,7 +13,7 @@
        @if (Auth::guard('admin')->user()->user_type_id==1)
            <li>
             <a href="{{ route('admin.account.user.list') }}">
-              <i class="fa fa-th"></i> <span>User</span>
+              <i class="fa fa-user"></i> <span>User</span>
                
             </a>
           </li>
@@ -31,12 +31,13 @@
                <ul class="treeview-menu">
                    <li><a href="{{ route('admin.master.village.list') }}"><i class="fa fa-circle-o"></i>  Add Village</a></li> 
                    <li><a href="{{ route('admin.master.items.list') }}"><i class="fa fa-circle-o"></i>  Add Items</a></li> 
+                   <li><a href="{{ route('admin.master.rate.list') }}"><i class="fa fa-circle-o"></i>   Rate List</a></li> 
                </ul>
 
            </li>
            <li class="treeview">
                <a href="#">
-                   <i class="fa fa-user text-danger"></i>
+                   <i class="fa fa-group text-success"></i>
                    <span>Maping</span>
                    <span class="pull-right-container">
                      <i class="fa fa-angle-left pull-right"></i>
