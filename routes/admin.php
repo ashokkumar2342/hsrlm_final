@@ -58,6 +58,8 @@ Route::group(['middleware' => 'admin'], function() {
 
 
 	 Route::get('rate-list', 'MasterController@rateList')->name('admin.master.rate.list');
+	 Route::get('rate-list-price', 'MasterController@rateListPrice')->name('admin.master.rate.list.price');
+
 	 Route::post('rate-store/{id?}', 'MasterController@storeRate')->name('admin.master.rate.store');
 	});
  	Route::prefix('maping')->group(function () {

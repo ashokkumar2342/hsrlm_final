@@ -286,4 +286,9 @@ class MasterController extends Controller
         }  
       return $response;
     }   
+
+    public function rateListPrice()
+    {
+       return 'd';
+    }
 }
