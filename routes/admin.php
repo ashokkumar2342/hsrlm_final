@@ -52,7 +52,8 @@ Route::group(['middleware' => 'admin'], function() {
 	    Route::post('village-store/{id?}', 'MasterController@villageStore')->name('admin.master.village.store');
 		
 	 Route::get('items-list', 'MasterController@itemsList')->name('admin.master.items.list');
-	 Route::get('add-items', 'MasterController@addItems')->name('admin.master.add.items');
+	 Route::get('add-items/{id?}', 'MasterController@addItems')->name('admin.master.add.items');
+	 Route::post('add-store/{id?}', 'MasterController@storeItems')->name('admin.master.items.store');
 	});
  	Route::prefix('maping')->group(function () {
  	    Route::get('village-farmer', 'MasterController@villageFarmer')->name('admin.village.farmer');
