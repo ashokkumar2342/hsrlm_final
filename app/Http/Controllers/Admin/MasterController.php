@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
   
 use App\Http\Controllers\Controller;
 use App\Model\Item;
+use App\Model\Measurement;
 use App\Model\RateList;
 use App\Model\UserActivity;
 use App\Model\Village;
@@ -91,14 +92,19 @@ class MasterController extends Controller
         $Items=Item::find(Crypt::decrypt($id));
       }
 
-        return view('admin.master.items.add_form',compact('Items'));
+      $measurements =Measurement::get();
+
+      return view('admin.master.items.add_form',compact('Items','measurements'));
     }
     public function storeItems(Request $request,$id=null)
       { 
 
           $rules=[
              'items_name' => 'required', 
+             'measurement' => 'required',               
             ];
+
+             
 
             $validator = Validator::make($request->all(),$rules);
             if ($validator->fails()) {
@@ -111,9 +117,10 @@ class MasterController extends Controller
               else {
                $Items=Item::firstOrNew(['id'=>$id]);  
                $Items->name=$request->items_name;
+               $Items->measurement_id=$request->measurement;
                if ($request->hasFile('items_picture')) { 
                 $attachment=$request->items_picture;
-                $filename='items_picture'.date('d-m-Y').time().'.pdf'; 
+                $filename='items_picture'.date('d-m-Y').time().'.png'; 
                 $attachment->storeAs('student/itemspicture/picture/',$filename);
                 $Items->picture=$filename;
                 } 

@@ -14,8 +14,22 @@
 						<input type="text" name="items_name" class="form-control" placeholder="Enter Items Name" value="{{ @$Items->name }}" maxlength="100"> 
 					</div>
 					<div class="col-lg-12 form-group">
+						<label>Measurement</label><span class="fa fa-asterisk"></span>
+						 <select name="measurement" class="form-control">
+						 	@foreach ($measurements as $measurement)
+						 		<option value="{{ $measurement->id }}">{{ $measurement->short_name }}</option> 
+						 	@endforeach
+						 	
+						 	 
+						 </select>
+					</div>
+					<div class="col-lg-12 form-group">
 						<label>Items Picture</label>
-						<input type="file" name="items_picture" class="form-control"> 
+						@if (empty($Items))
+							<span class="fa fa-asterisk"></span> 
+						@endif
+						
+						<input type="file" name="items_picture" {{ empty($Items)?'required':'' }} class="form-control" accept="image/x-png,image/gif,image/jpeg"> 
 					</div>
 					<div class="col-lg-12 text-center" style="padding-top: 10px">
 						<input type="submit" class="btn btn-success">

@@ -12,7 +12,9 @@
                     <thead>
                         <tr>
                             <th class="text-nowrap">Item Name</th>
+                            <th class="text-nowrap">Measurement</th>
                             <th class="text-nowrap">Item Picture</th>
+                            
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -20,11 +22,12 @@
                         @foreach ($Items as $Item)
                         <tr>
                             <td>{{ $Item->name }}</td>
+                            <td>{{ $Item->measurements->short_name or '' }}</td>
                             <td>
                                 @php
                              $itemsImage = route('admin.master.items.image',$Item->picture); 
                             @endphp
-                                 <img  src="{{ ($Item->picture)? $itemsImage : asset('profile-img/user.png') }}" class="profile-user-img img-responsive img-circle">
+                                 <img  src="{{ ($Item->picture)? $itemsImage : asset('profile-img/user.png') }}" width="50px">
                             </td>
                             <td>
                                 <a onclick="callPopupLarge(this,'{{ route('admin.master.add.items',Crypt::encrypt($Item->id))}}')" title="Edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
