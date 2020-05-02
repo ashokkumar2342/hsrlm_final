@@ -129,7 +129,8 @@ class MasterController extends Controller
                 } 
                 $Items->save();
                 $response=['status'=>1,'msg'=>'Submit Successfully'];
-              }     return response()->json($response);
+                return response()->json($response);
+              }     
         }
      public function itemsImage(Request $request,$image)
      {
@@ -146,12 +147,53 @@ class MasterController extends Controller
 
     public function rateListPrice(Request $request)
     {
+      $rules=[
+         'for_date' => 'required',  
+        ]; 
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $response=array();
+            $response["status"]=0;
+            $response["msg"]=$errors[0];
+            return response()->json($response);// response as json
+        }
         $Items=Item::orderBy('name','ASC')->get();
-        $RateLists=RateList::orderBy('purchase_rate','ASC')->get();
-        return view('admin.master.ratelist.rate_list_table',compact('Items','RateLists'));
+        $date=$request->for_date; 
+        $clone_previous_rate=$request->clone_previous_rate; 
+        return view('admin.master.ratelist.rate_list_table',compact('Items','date','clone_previous_rate'));
+    }
+    public function rateListPriceStore(Request $request)
+    {   $rules=[
+             'for_date' => 'required|date', 
+             'purchase_rate' => 'required',               
+             'sale_rate' => 'required',               
+            ]; 
+            $validator = Validator::make($request->all(),$rules);
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                $response=array();
+                $response["status"]=0;
+                $response["msg"]=$errors[0];
+                return response()->json($response);// response as json
+            }
+              else {
+                foreach ($request->purchase_rate as $key => $rate) {
+                $RateList=RateList::firstOrNew(['for_date'=>$request->for_date,'items_id'=>$key]); 
+                $RateList->for_date=$request->for_date;
+                $RateList->items_id=$key;
+                $RateList->purchase_rate=$rate;
+                $RateList->sale_rate=$request->sale_rate[$key]; 
+                $RateList->save();
+                }
+               
+                $response=['status'=>1,'msg'=>'Submit Successfully'];
+                return response()->json($response);
+              }
+       
     }
 
-      
+    //end rate list-------------------------------------------------------------  
     public function villageFarmer()
     {     
       $user =new User();
