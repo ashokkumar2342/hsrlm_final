@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+  
 use App\Http\Controllers\Controller;
 use App\Model\Item;
 use App\Model\RateList;
 use App\Model\UserActivity;
 use App\Model\Village;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -94,6 +95,7 @@ class MasterController extends Controller
     }
     public function storeItems(Request $request,$id=null)
       { 
+
           $rules=[
              'items_name' => 'required', 
             ];
@@ -131,6 +133,46 @@ class MasterController extends Controller
         $RateLists=RateList::orderBy('purchase_rate','ASC')->get();
         return view('admin.master.ratelist.rate_list',compact('Items','RateLists'));
     }   
-       
+      
+    public function villageFarmer()
+    {     
+      $user =new User();
+      $users =$user->getUserByUserTypeId(4);
+      $data=array();
+      $data['users'] = $users;
+      return view('admin.master.mapping.village_farmer',$data);
+    }
+    public function villageFarmerToUser(Request $request)
+    {  
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(2);
+      $data=array();
+      $data['to_users'] = $to_users;
+      return view('admin.master.mapping.to_user',$data);
+    } 
+    public function villageFarmerStore(Request $request)
+    { 
+      $rules=[
+          'farmer_id' => 'required',
+        ];
+
+      $validator = Validator::make($request->all(),$rules);
+      if ($validator->fails()) {
+          $errors = $validator->errors()->all();
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]=$errors[0];
+          return response()->json($response);// response as json
+      }
+        else {
+         $adminssionSeat=AdmissionSeat::firstOrNew(['id'=>$id]);  
+          
+         $adminssionSeat->save();
+          $response=['status'=>1,'msg'=>'Save Successfully'];
+        }  
+      
+      return $response;
+    }    
+
 
 }

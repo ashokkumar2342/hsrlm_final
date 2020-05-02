@@ -36,9 +36,9 @@
 
            </li>
            <li class="treeview">
-               <a href="#">
-                   <i class="fa fa-group text-success"></i>
-                   <span>Maping</span>
+               <a href="#"> 
+                   <i class="fa fa-user text-danger"></i>
+                   <span>Mapping</span> 
                    <span class="pull-right-container">
                      <i class="fa fa-angle-left pull-right"></i>
                    </span>

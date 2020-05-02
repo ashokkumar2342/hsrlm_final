@@ -62,6 +62,9 @@ Route::group(['middleware' => 'admin'], function() {
 	});
  	Route::prefix('maping')->group(function () {
  	    Route::get('village-farmer', 'MasterController@villageFarmer')->name('admin.village.farmer');
+ 	    Route::post('village-farmer-store', 'MasterController@villageFarmerStore')->name('admin.village.farmer.store');
+ 	    Route::get('village-farmer-to-user', 'MasterController@villageFarmerToUser')->name('admin.village.farmer.to.user');
+
  	    Route::get('village-vendor', 'MasterController@villageVendor')->name('admin.village.vendor');
  	    Route::get('cluster-village', 'MasterController@villageCluster')->name('admin.cluster.village');
  	    Route::get('delevery-village', 'MasterController@deliveryVillage')->name('admin.delivery.village');    

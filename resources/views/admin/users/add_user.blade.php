@@ -48,7 +48,7 @@
 						<div class="form-group">
 							<label for="exampleInputEmail1">Mobile No.</label>
 							<span class="fa fa-asterisk"></span>
-							<input type="text" name="mobile_no" class="form-control" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  value="{{ @$users->mobile_no }} " placeholder="Enter Mobile No.">
+							<input type="text" name="mobile_no" class="form-control" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  value="{{@$users->mobile_no }}" placeholder="Enter Mobile No.">
 						</div>                                
 					</div>
 					<div class="col-lg-6">
