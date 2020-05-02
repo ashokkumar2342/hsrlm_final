@@ -51,7 +51,8 @@ Route::group(['middleware' => 'admin'], function() {
 	    Route::get('village-list-table', 'MasterController@villageListTable')->name('admin.master.village.list.table');
 	    Route::post('village-store/{id?}', 'MasterController@villageStore')->name('admin.master.village.store');
 		
-		
+	 Route::get('items-list', 'MasterController@itemsList')->name('admin.master.items.list');
+	 Route::get('add-items', 'MasterController@addItems')->name('admin.master.add.items');
 	});
  
 	

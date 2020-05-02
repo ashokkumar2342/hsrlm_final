@@ -61,49 +61,54 @@ class MasterController extends Controller
             return response()->json($response);   
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\UserActivity  $userActivity
-     * @return \Illuminate\Http\Response
-     */
-    public function villageListTable()
-    {
-       $Villages =Village::orderBy('name','ASC')->get();
-        return view('admin.master.village.village_list_table',compact('Villages'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\UserActivity  $userActivity
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UserActivity $userActivity)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\UserActivity  $userActivity
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, UserActivity $userActivity)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Model\UserActivity  $userActivity
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(UserActivity $userActivity)
     {
         //
     }
+
+    //------------------------------items-----------------------------------------
+
+     public function itemsList()
+    {
+        return view('admin.master.items.items_list');
+    }
+    public function addItems()
+    {
+        return view('admin.master.items.add_form');
+    }
+    public function adminssionSeatStore(Request $request,$id=null)
+      { 
+          $rules=[
+            ];
+
+            $validator = Validator::make($request->all(),$rules);
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                $response=array();
+                $response["status"]=0;
+                $response["msg"]=$errors[0];
+                return response()->json($response);// response as json
+            }
+              else {
+               $adminssionSeat=AdmissionSeat::firstOrNew(['id'=>$id]);  
+               $adminssionSeat->academic_year_id=$request->academic_year_id;  
+               $adminssionSeat->class_id=$request->class_id;  
+               $adminssionSeat->total_seat=$request->total_seat;  
+               $adminssionSeat->form_fee=$request->from_fee;  
+               $adminssionSeat->from_date=$request->from_date;  
+               $adminssionSeat->last_date=$request->last_date; 
+               $adminssionSeat->test_date=$request->test_date; 
+               $adminssionSeat->retest_date=$request->retest_date; 
+               $adminssionSeat->result_date=$request->result_date;
+               if ($request->hasFile('attachment')) { 
+                $attachment=$request->attachment;
+                $filename='test_syllabus'.date('d-m-Y').time().'.pdf'; 
+                $attachment->storeAs('student/admissionschedule/syllabus/',$filename);
+                $adminssionSeat->syllabus=$filename;
+                } 
+               $adminssionSeat->save();
+                $response=['status'=>1,'msg'=>'Submit Successfully'];
+              }     return response()->json($response);
+        }
+
 }
