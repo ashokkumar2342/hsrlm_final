@@ -70,11 +70,7 @@ class LoginController extends Controller
                      
                  ]; 
             if(auth()->guard('admin')->attempt($credentials)) {
-                if (Auth::guard('admin')->user()->user_type_id==1) {
-                    return redirect()->route('admin.dashboard');
-                }else{
-                    return redirect()->route('admin.dashboard');
-                }
+                 return redirect()->route('admin.dashboard');
                    
             } 
 

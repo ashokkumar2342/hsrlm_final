@@ -41,22 +41,22 @@ class DashboardController extends Controller
            return view('admin/dashboard/admin_dashboard');
         
         
-        }elseif($admins->role_id==2) {
+        }elseif($admins->user_type_id==2) {
         //Chairman
-            return view('admin/dashboard/dashboard_'.'2');
-        }elseif($admins->role_id==3) {
+            return view('admin/dashboard/farmer_dashboard');
+        }elseif($admins->user_type_id==3) { 
         //Trustee    
             return view('admin/dashboard/dashboard_'.'3');
-        }elseif($admins->role_id==4) {
+        }elseif($admins->user_type_id==4) {
         //Principal     
             return view('admin/dashboard/dashboard_'.'4');
-        }elseif($admins->role_id==5) {
+        }elseif($admins->user_type_id==5) {
         //Vice-Principal         
             return view('admin/dashboard/dashboard_'.'5');
-        }elseif($admins->role_id==6) {
+        }elseif($admins->user_type_id==6) {
         //Teaching Staff    
             return view('admin/dashboard/dashboard_'.'6');
-        }elseif($admins->role_id==7) {
+        }elseif($admins->user_type_id==7) {
         //Transport Manager    
             return view('admin/dashboard/dashboard_'.'7');
         }

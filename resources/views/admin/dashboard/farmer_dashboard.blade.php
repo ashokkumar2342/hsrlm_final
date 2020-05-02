@@ -2,18 +2,7 @@
  @push('links')
  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
  @endpush
-@section('body')
-   <section class="content-header">
-         <h1>
-           Dashboard <h2>3</h2>
-           <small>Control panel</small>
-         </h1>
-         <ol class="breadcrumb">
-           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-           <li class="active">Dashboard</li>
-         </ol>
-       </section>
-
+@section('body') 
      <!-- Main content -->
      <section class="content">
        <!-- Small boxes (Stat box) -->
