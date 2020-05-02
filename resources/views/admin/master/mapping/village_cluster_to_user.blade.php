@@ -1,6 +1,6 @@
  <div class="col-lg-6"> 
- {{ Form::label('Cluster SHG','Cluster SHG',['class'=>' control-label']) }} <br>
-<select class="multiselect" multiple="multiple"  name="cluster[]" > 
+ {{ Form::label('Village SHG','Village SHG',['class'=>' control-label']) }} <br>
+<select class="multiselect" multiple="multiple"  name="village[]" > 
   @foreach ($to_users as $user) 
     <option value="{{ $user->id }}"{{ in_array($user->id, $VillageFarmerMap)?'selected':'' }}>{{ $user->first_name }}</option>     
   @endforeach 
