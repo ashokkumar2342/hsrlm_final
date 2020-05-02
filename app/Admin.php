@@ -24,21 +24,7 @@ class Admin extends Authenticatable
         'name', 'email', 'password',
     ];
 
-    public function roles(){
-        return $this->hasOne('App\Model\Role','id','role_id');
-    } 
-    Public function minus(){
-        return $this->hasMany('App\Model\Minu');
-    }
-
-    Public function subMenus(){
-        return $this->hasMany('App\Model\Minu','sub_menu_id');
-    }
-
-    Public function classes(){
-        return $this->hasMany('App\Model\UserClassType');
-    }
-
+ 
     public function getdetailbyuserid($user_id){
         try {
             return $this->where("id",$user_id)
@@ -64,38 +50,17 @@ class Admin extends Authenticatable
             return $e; 
         }
     }
-
-    public function getdetailbyemail($email){
+    public function getUserByUserTypeId($user_type_id){
         try {
-            return $this->where("email",$email)
-            ->first();
+            return $this->where('user_type_id',$user_type_id)
+            ->get();
         } catch (QueryException $e) {
             return $e; 
         }
     }
 
-    public function getUserDetailsByRoleId($role_id,$statusArrId)
-    {
-       
-          return $this->whereIn('role_id',$role_id)->orderBy('first_name','ASC')->whereIn('status',$statusArrId)->get();
-        
-    }
-    public function getRoleDetailsByAdminArrayId($role_id)
-    {
-                return $this->
-                              whereIn('role_id',$role_id)
-                            ->orderBy('first_name','ASC')
-                            ->pluck('id')
-                            ->toArray(); 
-    }
-    public function getDetailsAdminId($user_id,$statusArrId)
-    {
-    return $this->where('id',$user_id)->orderBy('first_name','ASC')->whereIn('status',$statusArrId)->get(); 
-    }
-    public function getUserDetailsByUserId($user_id,$statusArrId)
-    {
-     return $this->where('id',$user_id)->orderBy('first_name','ASC')->whereIn('status',$statusArrId)->get();
-    }
+    
+    
     // public function getArrIdDetailsByRoleId($user_id,$statusArrId)
     // {
     //    $adminArrayId = Admin::

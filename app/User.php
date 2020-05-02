@@ -62,4 +62,13 @@ class User extends Authenticatable
     return $e; 
     }
     }
+
+     public function getUserByUserTypeId($user_type_id){
+        try {
+            return $this->where('user_type_id',$user_type_id)
+            ->get();
+        } catch (QueryException $e) {
+            return $e; 
+        }
+    }
 }
