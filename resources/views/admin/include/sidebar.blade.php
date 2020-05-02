@@ -30,7 +30,9 @@
                </a>
                <ul class="treeview-menu">
                    <li><a href="{{ route('admin.master.village.list') }}"><i class="fa fa-circle-o"></i>  Add Village</a></li> 
+                   <li><a href="{{ route('admin.master.items.list') }}"><i class="fa fa-circle-o"></i>  Add Items</a></li> 
                </ul>
+
            </li>
            <li class="treeview">
                <a href="#">
