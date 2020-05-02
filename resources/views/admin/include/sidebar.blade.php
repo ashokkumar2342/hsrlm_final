@@ -43,7 +43,10 @@
                    </span>
                </a>
                <ul class="treeview-menu">
-                   <li><a href="#"><i class="fa fa-circle-o"></i>  Add User</a></li> 
+                   <li><a href="{{ route('admin.village.farmer') }}"><i class="fa fa-circle-o"></i>Village SHG -> Farmer</a></li> 
+                   <li><a href="{{ route('admin.village.vendor') }}"><i class="fa fa-circle-o"></i>Village SHG -> Vendor</a></li> 
+                   <li><a href="{{ route('admin.cluster.village') }}"><i class="fa fa-circle-o"></i>Cluster SHG -> Village SHG</a></li> 
+                   <li><a href="{{ route('admin.delivery.village') }}"><i class="fa fa-circle-o"></i>Delivery  <-> Village/Cluster SHG </a></li> 
                </ul>
            </li>
         @endif 
