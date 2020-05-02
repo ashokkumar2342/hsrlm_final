@@ -8,6 +8,9 @@ use App\Model\Measurement;
 use App\Model\RateList;
 use App\Model\UserActivity;
 use App\Model\Village;
+use App\Model\VillageClusterMap;
+use App\Model\VillageFarmerMap;
+use App\Model\VillageVenderMap;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -150,19 +153,22 @@ class MasterController extends Controller
       return view('admin.master.mapping.village_farmer',$data);
     }
     public function villageFarmerToUser(Request $request)
-    {  
+    {$user_id=$request->id;
+      $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$request->id)->pluck('farmer_id')->toArray(); 
       $user =new User();
       $to_users =$user->getUserByUserTypeId(2);
       $data=array();
       $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
       return view('admin.master.mapping.to_user',$data);
     } 
     public function villageFarmerStore(Request $request)
     { 
       $rules=[
           'farmer_id' => 'required',
+          'user' => 'required',
         ];
-
       $validator = Validator::make($request->all(),$rules);
       if ($validator->fails()) {
           $errors = $validator->errors()->all();
@@ -172,14 +178,112 @@ class MasterController extends Controller
           return response()->json($response);// response as json
       }
         else {
-         $adminssionSeat=AdmissionSeat::firstOrNew(['id'=>$id]);  
-          
-         $adminssionSeat->save();
+          $VillageFarmerMapold =VillageFarmerMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
+          $uctOld=VillageFarmerMap::whereIn('id',$VillageFarmerMapold)->update(['farmer_id'=>0]);
+          foreach ($request->farmer_id as $key => $value) {
+           $VillageFarmerMap=VillageFarmerMap::firstOrNew(['farmer_id'=>$value]); 
+           $VillageFarmerMap->farmer_id=$value; 
+           $VillageFarmerMap->village_shg_id=$request->user; 
+           $VillageFarmerMap->save();
+          }
           $response=['status'=>1,'msg'=>'Save Successfully'];
         }  
-      
       return $response;
-    }    
+    } 
 
+    //-------------------------------village-Vendor------------------------------------------
+    public function villageVendor()
+    {     
+      $user =new User();
+      $users =$user->getUserByUserTypeId(4);
+      $data=array();
+      $data['users'] = $users;
+      return view('admin.master.mapping.village_vendor',$data);
+    }
+    public function villageVendorToUser(Request $request)
+    {$user_id=$request->id;
+      $VillageFarmerMap=VillageVenderMap::where('village_shg_id',$request->id)->pluck('vender_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(3);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      return view('admin.master.mapping.village_vendor_to_user',$data);
+    }
+    public function villageVendorStore(Request $request)
+    { 
+      $rules=[
+          'user' => 'required',
+          'vendor' => 'required',
+        ];
+      $validator = Validator::make($request->all(),$rules);
+      if ($validator->fails()) {
+          $errors = $validator->errors()->all();
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]=$errors[0];
+          return response()->json($response);// response as json
+      }
+        else {
+          $VillageFarmerMapold =VillageVenderMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
+          $uctOld=VillageVenderMap::whereIn('id',$VillageFarmerMapold)->update(['vender_id'=>0]);
+          foreach ($request->vendor as $key => $value) {
+           $VillageFarmerMap=VillageVenderMap::firstOrNew(['vender_id'=>$value]); 
+           $VillageFarmerMap->vender_id=$value; 
+           $VillageFarmerMap->village_shg_id=$request->user; 
+           $VillageFarmerMap->save();
+          }
+          $response=['status'=>1,'msg'=>'Save Successfully'];
+        }  
+      return $response;
+    }
 
+    //-----------------------------villageCluster--------------------------------------
+    public function villageCluster()
+    {     
+      $user =new User();
+      $users =$user->getUserByUserTypeId(4);
+      $data=array();
+      $data['users'] = $users;
+      return view('admin.master.mapping.village_cluster',$data);
+    }
+    public function villageClusterToUser(Request $request)
+    {$user_id=$request->id;
+      $VillageFarmerMap=VillageClusterMap::where('village_shg_id',$request->id)->pluck('cluster_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(5);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      return view('admin.master.mapping.village_cluster_to_user',$data);
+    }
+    public function villageClusterStore(Request $request)
+    { 
+      $rules=[
+          'user' => 'required',
+          'cluster' => 'required',
+        ];
+      $validator = Validator::make($request->all(),$rules);
+      if ($validator->fails()) {
+          $errors = $validator->errors()->all();
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]=$errors[0];
+          return response()->json($response);// response as json
+      }
+        else {
+          $VillageFarmerMapold =VillageClusterMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
+          $uctOld=VillageClusterMap::whereIn('id',$VillageFarmerMapold)->update(['cluster_id'=>0]);
+          foreach ($request->cluster as $key => $value) {
+           $VillageFarmerMap=VillageClusterMap::firstOrNew(['cluster_id'=>$value]); 
+           $VillageFarmerMap->cluster_id=$value; 
+           $VillageFarmerMap->village_shg_id=$request->user; 
+           $VillageFarmerMap->save();
+          }
+          $response=['status'=>1,'msg'=>'Save Successfully'];
+        }  
+      return $response;
+    }   
 }
