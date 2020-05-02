@@ -30,7 +30,7 @@
 
         
          <li>
-          <a href="#">
+          <a href="{{ route('admin.account.user.list') }}">
             <i class="fa fa-th"></i> <span>User</span>
              
           </a>
@@ -40,20 +40,28 @@
          <li class="treeview">
              <a href="#">
                  <i class="fa fa-user text-danger"></i>
+                 <span>Master</span>
+                 <span class="pull-right-container">
+                   <i class="fa fa-angle-left pull-right"></i>
+                 </span>
+             </a>
+             <ul class="treeview-menu">
+                 <li><a href="{{ route('admin.master.village.list') }}"><i class="fa fa-circle-o"></i>  Add Village</a></li> 
+             </ul>
+         </li>
+         <li class="treeview">
+             <a href="#">
+                 <i class="fa fa-user text-danger"></i>
                  <span>Maping</span>
                  <span class="pull-right-container">
                    <i class="fa fa-angle-left pull-right"></i>
                  </span>
              </a>
              <ul class="treeview-menu">
-              
-                 <li><a href="#"><i class="fa fa-circle-o"></i>  Add User</a></li>               
-             
+                 <li><a href="#"><i class="fa fa-circle-o"></i>  Add User</a></li> 
              </ul>
-         </li>         
-        
-              
          </li>
+         </ul>
 
    
 

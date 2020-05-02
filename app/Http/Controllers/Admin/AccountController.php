@@ -18,6 +18,9 @@ use App\Model\Section;
 use App\Model\SubMenu;
 use App\Model\UserClass;
 use App\Model\UserClassType;
+use App\Model\Village;
+use App\User;
+use App\UserType;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -29,36 +32,37 @@ use PDF;
 use Symfony\Component\HttpKernel\DataCollector\collect;
 class AccountController extends Controller
 {
-    Public function index(){
-    	
-    	$accounts = Admin::orderBy('first_name','ASC')->get();
-    	return view('admin.account.list',compact('accounts'));
+    public function userList()
+    {
+     return view('admin.users.users_list');
     }
-
-    Public function form(Request $request){
-           
-    	$roles = Role::orderBy('name','ASC')->get();
-    	return view('admin.account.form',compact('roles'));
+    public function userListTable()
+    {
+     $users = User::orderBy('first_name','ASC')->get();
+     return view('admin.users.users_list_table',compact('users'));
     }
-    public function listUserGenerate(Request $request)
-     {
-       $accounts = Admin::whereIn('id',$request->user_id)->get(); 
-        $pdf=PDF::setOptions([
-            'logOutputFile' => storage_path('logs/log.htm'),
-            'tempDir' => storage_path('logs/')
-        ])
-        ->loadView('admin.account.user_list_pdf_generate',compact('accounts'));
-        return $pdf->stream('user_list.pdf');
-     } 
-
-    Public function store(Request $request){
+    public function addUser($id=null)
+    {
+     
+     $userTypes = UserType::orderBy('name','ASC')->get();
+     $Villages =Village::orderBy('name','ASC')->get();
+     if ($id==null) {
+      $users ='';
+     }
+     if ($id!=null) {
+     $users = User::find(Crypt::decrypt($id));
+     }
+     return view('admin.users.add_user',compact('userTypes','users','Villages'));
+    }
+    Public function userStore(Request $request,$id=null){
         $rules=[
-        'first_name' => 'required|string|min:3|max:50',             
-        'email' => 'required|email|unique:admins',
-        "mobile" => 'required|unique:admins|numeric|digits:10',
-        "role_id" => 'required',
+        'first_name' => 'required',             
+        'user_type_id' => 'required',
+        'user_id' => 'required',
+        "mobile_no" => 'required|numeric|digits:10|unique:users,mobile_no,'.$id, 
         "password" => 'required|min:6|max:15', 
-        "dob" => 'required',  
+        "village" => 'required',  
+      
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -69,43 +73,53 @@ class AccountController extends Controller
             $response["msg"]=$errors[0];
             return response()->json($response);// response as json
         } 
-    	$accounts = new Admin();
-    	$accounts->first_name = $request->first_name;
-    	$accounts->last_name = $request->last_name;
-    	$accounts->role_id = $request->role_id;
-    	$accounts->email = $request->email;
-    	$accounts->password = bcrypt($request['password']);
-    	$accounts->mobile = $request->mobile;
-    	$accounts->dob = $request->dob == null ? $request->dob : date('Y-m-d',strtotime($request->dob));
-    	 $accounts->password_plain=$request->password;          
-       $accounts->status=1;          
-       $accounts->save();          
-      //  $MailHelper = new MailHelper();
-      //  $array = array();
-      //  $array['email'] = $request->email;
-      //  $array['password'] = $request->password;
-      // $MailHelper->welcomemail($accounts->id,$array);
-      // event(new SmsEvent($request->mobile,'User Id Your Email and Password:'.$request->password));
-     $response=['status'=>1,'msg'=>'Account Created Successfully'];
+        $users =User::firstOrNew(['id'=>$id]);
+        $users->first_name = $request->first_name;
+        $users->last_name = $request->last_name;
+        $users->user_type_id = $request->user_type_id;
+        $users->user_id = $request->user_id;
+        $users->mobile_no = $request->mobile_no;
+        $users->password = bcrypt($request['password']);
+        $users->village_id = $request->village;
+        $users->save(); 
+        $response=['status'=>1,'msg'=>'Account Created Successfully'];
             return response()->json($response);   
     }
+    
+   
+    
 
-    // public function defaultMenuAccess($roleId,$userId){
-    //     $role =Role::find($roleId); 
-    //     $subMenus = explode(',',$role->sub_menu_id);
+   
 
-    //     foreach ($subMenus as $key => $value) {
-    //       $menu =  new Minu();
-    //       $menu->admin_id = $userId;   
-    //       $menuData= SubMenu::find($value); 
-    //       $menu->minu_id = $menuData->menu_type_id; 
-    //       $menu->sub_menu_id = $value;
-    //       $menu->save();
-    //     }
 
-        
 
-    // } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Public function edit(Request $request, Admin $account){
         $roles = Role::all();

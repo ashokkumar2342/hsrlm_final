@@ -29,6 +29,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+     public function userType(){
+        return $this->hasOne('App\UserType','id','user_type_id');
+    }
+    public function village(){
+        return $this->hasOne('App\Model\Village','id','village_id');
+    }
     
     public function getdetailbyuserid($user_id){
     try {

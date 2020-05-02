@@ -38,13 +38,20 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('photo-refrash', 'DashboardController@profilePhotoRefrash')->name('admin.profile.photo.refrash');
 	//---------------account-----------------------------------------	
 	Route::prefix('account')->group(function () {
-	    Route::get('form', 'AccountController@form')->name('admin.account.form');
-	    Route::post('store', 'AccountController@store')->name('admin.account.post');
-		Route::get('list', 'AccountController@index')->name('admin.account.list');
-		Route::post('list-user-generate', 'AccountController@listUserGenerate')->name('admin.account.list.user.generate');
-	
-						
-		// Route::get('status/{minu}', 'AccountController@minustatus')->name('admin.minu.status'); 
+	    Route::get('user-list', 'AccountController@userList')->name('admin.account.user.list');
+	    Route::get('user-list-table', 'AccountController@userListTable')->name('admin.account.user.list.table');
+	    Route::get('add-user/{id?}', 'AccountController@addUser')->name('admin.account.add.user');
+	    Route::post('user-store/{id?}', 'AccountController@userStore')->name('admin.account.user.store');
+		
+		
+	});
+	Route::prefix('master')->group(function () {
+	    Route::get('village-list', 'MasterController@villageList')->name('admin.master.village.list');
+	    Route::get('add-village/{id?}', 'MasterController@addVillage')->name('admin.master.add.village');
+	    Route::get('village-list-table', 'MasterController@villageListTable')->name('admin.master.village.list.table');
+	    Route::post('village-store/{id?}', 'MasterController@villageStore')->name('admin.master.village.store');
+		
+		
 	});
  
 	
