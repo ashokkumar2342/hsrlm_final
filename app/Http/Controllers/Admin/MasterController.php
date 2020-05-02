@@ -143,6 +143,14 @@ class MasterController extends Controller
         $RateLists=RateList::orderBy('purchase_rate','ASC')->get();
         return view('admin.master.ratelist.rate_list',compact('Items','RateLists'));
     }   
+
+    public function rateListPrice(Request $request)
+    {
+        $Items=Item::orderBy('name','ASC')->get();
+        $RateLists=RateList::orderBy('purchase_rate','ASC')->get();
+        return view('admin.master.ratelist.rate_list_table',compact('Items','RateLists'));
+    }
+
       
     public function villageFarmer()
     {     
@@ -287,8 +295,4 @@ class MasterController extends Controller
       return $response;
     }   
 
-    public function rateListPrice()
-    {
-       return 'd';
-    }
 }

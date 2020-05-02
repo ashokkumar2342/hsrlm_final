@@ -5,6 +5,10 @@
             <th class="text-nowrap">Item Name</th>
             <th class="text-nowrap">Measurement</th>
             <th class="text-nowrap">Item Picture</th>
+            <th class="text-nowrap">Previous Purchase</th>
+            <th class="text-nowrap">Previous Sale</th>
+            <th class="text-nowrap">Purchase Rate</th>
+            <th class="text-nowrap">Sale Rate</th>
             
              
         </tr>
@@ -20,6 +24,15 @@
             @endphp
                  <img  src="{{ ($Item->picture)? $itemsImage : asset('profile-img/user.png') }}" width="50px">
             </td>
+            <td></td>
+            <td></td>
+            <td> 
+            	<input type="text" name="purchage_rate[{{ $Item->id }}]">
+            </td>
+             <td>
+            	<input type="text" name="sate_rate[{{ $Item->id }}]">
+            </td>
+             
              
         </tr>
         @endforeach

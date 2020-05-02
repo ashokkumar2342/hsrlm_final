@@ -10,13 +10,15 @@
             <div class="row"> 
                 <div class="col-lg-4 form-group">
                 <label>For Date</label>
-                    <input type="date" class="form-control" name="for_date" onclick="callAjax(this,'{{ route('admin.master.rate.list.price') }}','rate_list')">
+                    <input type="date" class="form-control" name="for_date" onchange="callAjax(this,'{{ route('admin.master.rate.list.price') }}','rate_list')">
                 </div>
                 <div class="col-lg-8 form-group">
                 </div>
             </div>
-            <div class="row" id="rate_list">  
-                
+            <div class="row">  
+                <div class="col-lg-12" id="rate_list">
+                    
+                </div>
             </div>
             
         </form>
