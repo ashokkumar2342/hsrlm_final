@@ -66,7 +66,7 @@ Route::group(['middleware' => 'admin'], function() {
 	 Route::post('rate-store/{id?}', 'MasterController@storeRate')->name('admin.master.rate.store');
 
 	Route::get('user-bank-details', 'MasterController@userBankDetails')->name('admin.master.user.bank.details'); 
-	Route::get('add-bank-details', 'MasterController@addBankDetails')->name('admin.master.add.bank.details'); 
+	Route::get('show-bank-details', 'MasterController@showBankDetails')->name('admin.master.show.bank.details'); 
 	Route::post('store-bank-details', 'MasterController@storeBankDetails')->name('admin.master.store.bank.details'); 
 	});
  	Route::prefix('maping')->group(function () {
@@ -84,7 +84,11 @@ Route::group(['middleware' => 'admin'], function() {
  	    Route::get('cluster-village-to-user', 'MasterController@villageClusterToUser')->name('admin.cluster.village.to.user');
  	    Route::post('cluster-village-store', 'MasterController@villageClusterStore')->name('admin.cluster.village.store');
  	    Route::get('village-cluster-report/{id?}', 'MasterController@villageClusterReport')->name('admin.village.cluster.report');
- 	    Route::get('delevery-village', 'MasterController@deliveryVillage')->name('admin.delivery.village');    
+
+ 	   Route::get('delevery-village', 'MasterController@deliveryVillage')->name('admin.delivery.village');
+ 	   Route::get('delevery-village-to-user', 'MasterController@villageDeleveryToUser')->name('admin.delevery.village.to.user');
+ 	   Route::post('delevery-village-store', 'MasterController@villageDeleveryStore')->name('admin.delevery.village.store');
+ 	   Route::get('village-cluster-delevery-report/{id?}/{vill_clus_shg}', 'MasterController@villageClusterDeleveryReport')->name('admin.village.cluster.delevery.report');    
  	});
 	
             

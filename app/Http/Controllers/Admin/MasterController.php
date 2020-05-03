@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Admin;
   
 use App\Http\Controllers\Controller;
+use App\Model\Bank;
+use App\Model\BankDetail;
+use App\Model\DeliveryClusterMap;
 use App\Model\Item;
 use App\Model\Measurement;
 use App\Model\RateList;
 use App\Model\UserActivity;
+use App\Model\UserDetail;
 use App\Model\Village;
 use App\Model\VillageClusterMap;
 use App\Model\VillageFarmerMap;
 use App\Model\VillageVenderMap;
 use App\User;
-use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class MasterController extends Controller
 {
@@ -413,18 +417,162 @@ class MasterController extends Controller
         ])
         ->loadView('admin.master.mapping.user_mapped',$data);
         return $pdf->stream('village_farmer_report.pdf');
-    }    
+    } 
+    //--------------------------------delivery-Village-----------------------------------
+    public function deliveryVillage()
+    {     
+      $user =new User();
+      $users =$user->getUserByUserTypeId(6);
+      $data=array();
+      $data['users'] = $users;
+      return view('admin.master.mapping.village_delivery',$data);
+    }
+    public function villageDeleveryToUser(Request $request)
+    { 
+      $coditionId=6;
+      $conditionid2=$request->cluster_village_shg;
+      $user_id=$request->delivery;
+      $VillageFarmerMap=DeliveryClusterMap::where('delivery_id',$request->delivery)->where('user_type_id',$request->cluster_village_shg)->pluck('cluster_village_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId($request->cluster_village_shg);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
+      $data['conditionid2'] = $conditionid2;
+     
+      return view('admin.master.mapping.village_delivery_to_user',$data);
+    }
+    public function villageDeleveryStore(Request $request)
+    { 
+      $rules=[
+          'delivery' => 'required',
+          'cluster_village_shg' => 'required',
+        ];
+      $validator = Validator::make($request->all(),$rules);
+      if ($validator->fails()) {
+          $errors = $validator->errors()->all();
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]=$errors[0];
+          return response()->json($response);// response as json
+      }
+      else {
 
- 
+        //--validation--------------------------------
+        if ($request->cluster_village_shg==4) {
+        if (empty($request->cluster_village_id)) {
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]='The village shg field is required.';
+          return response()->json($response);
+        }
+       }
+       if ($request->cluster_village_shg==5) {
+        if (empty($request->cluster_village_id)) {
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]='The cluster shg field is required.';
+          return response()->json($response);
+        }
+       }
+       //end--validation--------------------------------
+          $VillageFarmerMapold =DeliveryClusterMap::where('delivery_id',$request->delivery)->where('user_type_id',$request->cluster_village_shg)->pluck('id')->toArray();
+          $uctOld=DeliveryClusterMap::whereIn('id',$VillageFarmerMapold)->update(['cluster_village_id'=>0]);
+          foreach ($request->cluster_village_id as $key => $value) {
+           $VillageFarmerMap=DeliveryClusterMap::firstOrNew(['cluster_village_id'=>$request->value,'user_type_id'=>$request->cluster_village_shg,'delivery_id'=>$request->delivery]); 
+           $VillageFarmerMap->cluster_village_id=$value; 
+           $VillageFarmerMap->delivery_id=$request->delivery; 
+           $VillageFarmerMap->user_type_id=$request->cluster_village_shg; 
+           $VillageFarmerMap->save();
+          }
+          $response=['status'=>1,'msg'=>'Save Successfully'];
+        }  
+      return $response;
+    }
+    public function villageClusterDeleveryReport($id,$vill_clus_shg)
+    {
+      $coditionId=6;
+      $conditionid2 =$vill_clus_shg;
+      $user_id=$id;
+      $VillageFarmerMap=DeliveryClusterMap::where('delivery_id',$id)->where('user_type_id',$vill_clus_shg)->pluck('cluster_village_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId($vill_clus_shg);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
+      $data['conditionid2'] = $conditionid2;
+      $pdf = PDF::setOptions([
+            'logOutputFile' => storage_path('logs/log.htm'),
+            'tempDir' => storage_path('logs/')
+        ])
+        ->loadView('admin.master.mapping.user_mapped',$data);
+        return $pdf->stream('village_farmer_report.pdf');
+    } 
     //---------------------user-Bank-Details-----------------------------------
     public function userBankDetails($value='')
     {
       return view('admin.master.bank.user_bank_list');
     }
-    public function addBankDetails($value='')
+    public function showBankDetails(Request $request)
     {
-      $users=User::orderBy('first_name','ASC')->get();
-      return view('admin.master.bank.add_form',compact('users'));
+      $user=User::where('user_id',$request->user_id)->first();
+      $banks=Bank::orderBy('name','ASC')->get();
+      $userdetail=UserDetail::where('user_id',$user->id)->first();
+      $bankDetail=BankDetail::where('user_id',$user->id)->first();
+     if (empty($user)) {
+          $response=array();
+          $response["status"]=0;
+          $response["msg"]='Invalid User Id';
+          return response()->json($response);
+        }
+      return view('admin.master.bank.add_form',compact('user','banks','userdetail','bankDetail'));
     }
+    public function storeBankDetails(Request $request,$id=null)
+    {
+       
+       $rules=[
+        'user_name' => 'required|max:100|',     
+        'gender' => 'required',              
+        'bank_name' => 'required',              
+        'ifsc_code' => 'required',              
+        'account_no' => 'required',              
+        'branch' => 'required',              
+       
+        ];
+
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $response=array();
+            $response["status"]=0;
+            $response["msg"]=$errors[0];
+            return response()->json($response);// response as json
+        } 
+        $bankDetails =BankDetail::firstOrNew(['id'=>$id]);
+        $bankDetails->user_id = $request->user_id;
+        $bankDetails->bank_id = $request->bank_name;
+        $bankDetails->ifsc_code = $request->ifsc_code;
+        $bankDetails->account_no = $request->account_no;
+        $bankDetails->branch = $request->branch;
+        $bankDetails->bank_address = $request->bank_address;
+        $bankDetails->save();
+        $userDetail =UserDetail::firstOrNew(['id'=>$id]);
+        $userDetail->user_id = $request->user_id;
+        $userDetail->city = $request->city;
+        $userDetail->dob = $request->dob == null ? $request->dob : date('Y-m-d',strtotime($request->dob));
+        $userDetail->gender = $request->gender;
+        $userDetail->city = $request->city;
+        $userDetail->c_address = $request->current_address;
+        $userDetail->p_address = $request->permanent_address;
+        $userDetail->pincode = $request->pincode;
+        $userDetail->save();
+        $response=['status'=>1,'msg'=>'Submit Successfully'];
+            return response()->json($response);   
+    }
+     
  
 }

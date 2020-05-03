@@ -7,10 +7,14 @@
   <table class="table table-condensed "id="user_menu_table" style="width: 100%"> 
     <thead> 
       <tr>
-        @if ($coditionId==4)
+        @if ($coditionId==5)
           <th>Cluster SHG</th>
-          @else
+        @endif
+        @if ($coditionId==4)
           <th>Village SHG</th>
+        @endif
+        @if ($coditionId==6)
+          <th>Delivery</th>
         @endif
         @if ($coditionId==2)
           <th>Farmer</th>
@@ -20,6 +24,12 @@
         @endif
         @if ($coditionId==4)
           <th>Village SHG</th>
+        @endif
+        @if ($conditionid2==4)
+          <th>Village SHG</th>
+        @endif
+        @if ($conditionid2==5)
+          <th>Cluster SHG</th>
         @endif
       </tr>
     </thead>

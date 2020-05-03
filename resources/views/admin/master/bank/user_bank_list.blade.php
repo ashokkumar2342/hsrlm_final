@@ -3,25 +3,22 @@
 <section class="content">
     <div class="box">
         <div class="box-header">
-            <button type="button" class="btn btn-sm btn-info pull-right" onclick="callPopupLarge(this,'{{ route('admin.master.add.bank.details')}}')">Add Bank Details</button>
             <h3 class="box-title">User Bank List</h3>
         </div>
         <div class="box-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>header</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>data</td>
-                        </tr>
-                    </tbody>
-                </table>
-                            
-            </div>            
+            <div class="row">
+                <div class="col-lg-4">
+                    <label>User Id</label>
+                    <input type="text" id="user_id" name="user_id" placeholder="Enter User Id" class="form-control">
+                </div>
+                <div class="col-lg-3">
+                    <button onclick="callAjax(this,'{{ route('admin.master.show.bank.details') }}'+'?user_id='+$('#user_id').val(),'add_bank_details_form')" success-popup="true" class="btn btn-success" style="margin-top: 24px">Show</button>
+                </div>
+            </div>
+            <div style="margin-top: 50px" class="col-lg-12" id="add_bank_details_form">
+                
+            </div>
+               
         </div>
     </div>
 </section>
