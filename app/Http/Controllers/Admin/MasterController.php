@@ -179,6 +179,23 @@ class MasterController extends Controller
         $clone_previous_rate=$request->clone_previous_rate; 
         return view('admin.master.ratelist.rate_list_table',compact('Items','date','clone_previous_rate'));
     }
+    public function rateListPriceFarmer(Request $request)
+    {
+      $rules=[
+         'for_date' => 'required',  
+        ]; 
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $response=array();
+            $response["status"]=0;
+            $response["msg"]=$errors[0];
+            return response()->json($response);// response as json
+        }
+        $Items=Item::orderBy('name','ASC')->get();
+        $date=$request->for_date;  
+        return view('admin.master.ratelist.rate_list_farmer_table',compact('Items','date'));
+    }
     public function rateListPriceStore(Request $request)
     {   $rules=[
              'for_date' => 'required|date', 

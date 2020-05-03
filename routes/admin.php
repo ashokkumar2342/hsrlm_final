@@ -61,6 +61,8 @@ Route::group(['middleware' => 'admin'], function() {
 
 	 Route::get('rate-list', 'MasterController@rateList')->name('admin.master.rate.list');
 	 Route::get('rate-list-price', 'MasterController@rateListPrice')->name('admin.master.rate.list.price');
+	 Route::get('rate-list-price.farmer', 'MasterController@rateListPriceFarmer')->name('admin.master.rate.list.price.farmer');
+	 Route::post('rate-list-farmer-store', 'MasterController@rateListPriceFarmerStore')->name('admin.master.rate.list.price.farmer.store');
 	 Route::post('rate-list-store', 'MasterController@rateListPriceStore')->name('admin.master.rate.list.price.store');
 
 	 Route::post('rate-store/{id?}', 'MasterController@storeRate')->name('admin.master.rate.store');

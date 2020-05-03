@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ISKOOL</title>
+  <title>Jhajjar Mahila Federation</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -65,7 +65,23 @@
 <body class="hold-transition skin-blue sidebar-mini" id="body_id">
     <!-- Site wrapper -->
     <div class="wrapper">
-      @include('admin.include.header')
+      @php
+        $user_type_id =Auth::guard('admin')->user()->user_type_id;
+      @endphp
+      @if ($user_type_id==1)
+        @include('admin.include.header')
+       @elseif($user_type_id==2)
+        @include('admin.include.farmer_header')
+       @elseif($user_type_id==3)
+       @include('admin.include.farmer_header')
+       @elseif($user_type_id==4)
+       @include('admin.include.farmer_header')
+       @elseif($user_type_id==5)
+       @include('admin.include.farmer_header')
+       
+      @endif
+     
+      
       @include('admin.include.sidebar')
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

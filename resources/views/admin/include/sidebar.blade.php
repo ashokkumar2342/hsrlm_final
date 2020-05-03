@@ -9,8 +9,11 @@
     <ul class="sidebar-menu" style="height:1030px;overflow: auto">
        
         {{-- <li class="header">MAIN NAVIGATION</li> --}}
-        <li ><a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
-       @if (Auth::guard('admin')->user()->user_type_id==1)
+        @php
+          $user_type_id =Auth::guard('admin')->user()->user_type_id;
+        @endphp
+       @if ($user_type_id==1)
+       <li ><a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> 
            <li>
             <a href="{{ route('admin.account.user.list') }}">
               <i class="fa fa-user"></i> <span>User</span>
@@ -52,8 +55,19 @@
                </ul>
            </li>
         @endif 
-         
- 
+         @if ($user_type_id==2)
+           <li>
+            <a href="{{ route('admin.profile') }}">
+              <i class="fa fa-user"></i> <span>Profile</span>               
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.logout.get') }}">
+              <i class="fa fa-sign-out"></i> <span>Sign out</span>  
+            </a>
+          </li>
+         @endif
+  
           
          
          </ul>
