@@ -31,7 +31,7 @@
                             </td>
                             <td>
                                 <a onclick="callPopupLarge(this,'{{ route('admin.master.add.items',Crypt::encrypt($Item->id))}}')" title="Edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                                <a href="" title="Edit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                                <a href="{{ route('admin.master.items.delete',Crypt::encrypt($Item->id)) }}" onclick="return confirm('Are you sure you want to delete this item?');" title="Edit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach

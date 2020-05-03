@@ -31,7 +31,8 @@
                <ul class="treeview-menu">
                    <li><a href="{{ route('admin.master.village.list') }}"><i class="fa fa-circle-o"></i>  Add Village</a></li> 
                    <li><a href="{{ route('admin.master.items.list') }}"><i class="fa fa-circle-o"></i>  Add Items</a></li> 
-                   <li><a href="{{ route('admin.master.rate.list') }}"><i class="fa fa-circle-o"></i>   Rate List</a></li> 
+                   <li><a href="{{ route('admin.master.rate.list') }}"><i class="fa fa-circle-o"></i>   Rate List</a></li>
+                   <li><a href="{{ route('admin.master.user.bank.details') }}"><i class="fa fa-circle-o"></i>Bank Details</a></li> 
                </ul>
 
            </li>

@@ -12,6 +12,7 @@ use App\Model\VillageClusterMap;
 use App\Model\VillageFarmerMap;
 use App\Model\VillageVenderMap;
 use App\User;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -74,9 +75,13 @@ class MasterController extends Controller
             return response()->json($response);   
     }
 
-    public function destroy(UserActivity $userActivity)
+    public function villagedelete($id)
     {
-        //
+        $id =Crypt::decrypt($id);
+        $Village =Village::find($id);
+        $Village->delete();
+        $response=['status'=>1,'msg'=>'Delete Successfully'];
+            return response()->json($response);
     }
 
     //------------------------------items-----------------------------------------
@@ -136,6 +141,13 @@ class MasterController extends Controller
         return $itemsImage = Storage::disk('student')->get('itemspicture/picture/'.$image);           
          return  response($itemsImage)->header('Content-Type', 'image/jpg');
      }
+     public function itemsDelete($id)
+     {
+      $id =Crypt::decrypt($id); 
+      $Item =Item::find($id);
+      $Item->delete();
+       return  redirect()->back()->with(['message'=>'Delete Successfully','class'=>'success']);
+     }
     //-----------------------------------------rate-list----------------------------------------
     
     public function rateList()
@@ -153,7 +165,9 @@ class MasterController extends Controller
       return view('admin.master.mapping.village_farmer',$data);
     }
     public function villageFarmerToUser(Request $request)
-    {$user_id=$request->id;
+    {
+      $coditionId=2;
+      $user_id=$request->id;
       $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$request->id)->pluck('farmer_id')->toArray(); 
       $user =new User();
       $to_users =$user->getUserByUserTypeId(2);
@@ -161,6 +175,7 @@ class MasterController extends Controller
       $data['to_users'] = $to_users;
       $data['VillageFarmerMap'] = $VillageFarmerMap;
       $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
       return view('admin.master.mapping.to_user',$data);
     } 
     public function villageFarmerStore(Request $request)
@@ -189,6 +204,25 @@ class MasterController extends Controller
           $response=['status'=>1,'msg'=>'Save Successfully'];
         }  
       return $response;
+    }
+    public function villageFarmerReport($id)
+    {
+      $coditionId=2;
+      $user_id=$id;
+      $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$id)->pluck('farmer_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(2);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
+      $pdf = PDF::setOptions([
+            'logOutputFile' => storage_path('logs/log.htm'),
+            'tempDir' => storage_path('logs/')
+        ])
+        ->loadView('admin.master.mapping.user_mapped',$data);
+        return $pdf->stream('village_farmer_report.pdf');
     } 
 
     //-------------------------------village-Vendor------------------------------------------
@@ -201,7 +235,9 @@ class MasterController extends Controller
       return view('admin.master.mapping.village_vendor',$data);
     }
     public function villageVendorToUser(Request $request)
-    {$user_id=$request->id;
+    {
+      $coditionId=3;
+      $user_id=$request->id;
       $VillageFarmerMap=VillageVenderMap::where('village_shg_id',$request->id)->pluck('vender_id')->toArray(); 
       $user =new User();
       $to_users =$user->getUserByUserTypeId(3);
@@ -209,6 +245,7 @@ class MasterController extends Controller
       $data['to_users'] = $to_users;
       $data['VillageFarmerMap'] = $VillageFarmerMap;
       $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
       return view('admin.master.mapping.village_vendor_to_user',$data);
     }
     public function villageVendorStore(Request $request)
@@ -238,6 +275,25 @@ class MasterController extends Controller
         }  
       return $response;
     }
+    public function villageVendorReport($id)
+    {
+      $coditionId=3;
+      $user_id=$id;
+     $VillageFarmerMap=VillageVenderMap::where('village_shg_id',$id)->pluck('vender_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(3);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
+      $pdf = PDF::setOptions([
+            'logOutputFile' => storage_path('logs/log.htm'),
+            'tempDir' => storage_path('logs/')
+        ])
+        ->loadView('admin.master.mapping.user_mapped',$data);
+        return $pdf->stream('village_farmer_report.pdf');
+    } 
 
     //-----------------------------villageCluster--------------------------------------
     public function villageCluster()
@@ -249,7 +305,9 @@ class MasterController extends Controller
       return view('admin.master.mapping.village_cluster',$data);
     }
     public function villageClusterToUser(Request $request)
-    {$user_id=$request->id;
+    {
+      $coditionId=4;
+      $user_id=$request->id;
       $VillageFarmerMap=VillageClusterMap::where('cluster_shg_id',$request->id)->pluck('village_id')->toArray(); 
       $user =new User();
       $to_users =$user->getUserByUserTypeId(4);
@@ -257,6 +315,7 @@ class MasterController extends Controller
       $data['to_users'] = $to_users;
       $data['VillageFarmerMap'] = $VillageFarmerMap;
       $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
       return view('admin.master.mapping.village_cluster_to_user',$data);
     }
     public function villageClusterStore(Request $request)
@@ -285,10 +344,40 @@ class MasterController extends Controller
           $response=['status'=>1,'msg'=>'Save Successfully'];
         }  
       return $response;
-    }   
+    }
+    public function villageClusterReport($id)
+    {
+      $coditionId=4;
+      $user_id=$id;
+      $VillageFarmerMap=VillageClusterMap::where('cluster_shg_id',$id)->pluck('village_id')->toArray(); 
+      $user =new User();
+      $to_users =$user->getUserByUserTypeId(4);
+      $data=array();
+      $data['to_users'] = $to_users;
+      $data['VillageFarmerMap'] = $VillageFarmerMap;
+      $data['user_id'] = $user_id;
+      $data['coditionId'] = $coditionId;
+      $pdf = PDF::setOptions([
+            'logOutputFile' => storage_path('logs/log.htm'),
+            'tempDir' => storage_path('logs/')
+        ])
+        ->loadView('admin.master.mapping.user_mapped',$data);
+        return $pdf->stream('village_farmer_report.pdf');
+    }    
 
     public function rateListPrice()
     {
        return 'd';
+    }
+
+    //---------------------user-Bank-Details-----------------------------------
+    public function userBankDetails($value='')
+    {
+      return view('admin.master.bank.user_bank_list');
+    }
+    public function addBankDetails($value='')
+    {
+      $users=User::orderBy('first_name','ASC')->get();
+      return view('admin.master.bank.add_form',compact('users'));
     }
 }

@@ -50,29 +50,39 @@ Route::group(['middleware' => 'admin'], function() {
 	    Route::get('add-village/{id?}', 'MasterController@addVillage')->name('admin.master.add.village');
 	    Route::get('village-list-table', 'MasterController@villageListTable')->name('admin.master.village.list.table');
 	    Route::post('village-store/{id?}', 'MasterController@villageStore')->name('admin.master.village.store');
+	    Route::get('village-delete/{id?}', 'MasterController@villagedelete')->name('admin.master.village.delete');
 		
 	 Route::get('items-list', 'MasterController@itemsList')->name('admin.master.items.list');
 	 Route::get('add-items/{id?}', 'MasterController@addItems')->name('admin.master.add.items');
 	 Route::post('add-store/{id?}', 'MasterController@storeItems')->name('admin.master.items.store');
 	 Route::get('item-image/{id?}', 'MasterController@itemsImage')->name('admin.master.items.image');
+	 Route::get('item-delete/{id?}', 'MasterController@itemsDelete')->name('admin.master.items.delete');
 
 
 	 Route::get('rate-list', 'MasterController@rateList')->name('admin.master.rate.list');
 	 Route::get('rate-list-price', 'MasterController@rateListPrice')->name('admin.master.rate.list.price');
 
 	 Route::post('rate-store/{id?}', 'MasterController@storeRate')->name('admin.master.rate.store');
+
+	Route::get('user-bank-details', 'MasterController@userBankDetails')->name('admin.master.user.bank.details'); 
+	Route::get('add-bank-details', 'MasterController@addBankDetails')->name('admin.master.add.bank.details'); 
+	Route::post('store-bank-details', 'MasterController@storeBankDetails')->name('admin.master.store.bank.details'); 
 	});
  	Route::prefix('maping')->group(function () {
  	    Route::get('village-farmer', 'MasterController@villageFarmer')->name('admin.village.farmer');
  	    Route::post('village-farmer-store', 'MasterController@villageFarmerStore')->name('admin.village.farmer.store');
  	    Route::get('village-farmer-to-user', 'MasterController@villageFarmerToUser')->name('admin.village.farmer.to.user');
+ 	    Route::get('village-farmer-report/{id?}', 'MasterController@villageFarmerReport')->name('admin.village.farmer.report');
 
  	    Route::get('village-vendor', 'MasterController@villageVendor')->name('admin.village.vendor');
  	    Route::get('village-vendor-to-user', 'MasterController@villageVendorToUser')->name('admin.village.vendor.to.user');
  	    Route::post('village-vendor-store', 'MasterController@villageVendorStore')->name('admin.village.vendor.store');
+ 	    Route::get('village-vendor-report/{id?}', 'MasterController@villageVendorReport')->name('admin.village.vendor.report');
+
  	    Route::get('cluster-village', 'MasterController@villageCluster')->name('admin.cluster.village');
  	    Route::get('cluster-village-to-user', 'MasterController@villageClusterToUser')->name('admin.cluster.village.to.user');
  	    Route::post('cluster-village-store', 'MasterController@villageClusterStore')->name('admin.cluster.village.store');
+ 	    Route::get('village-cluster-report/{id?}', 'MasterController@villageClusterReport')->name('admin.village.cluster.report');
  	    Route::get('delevery-village', 'MasterController@deliveryVillage')->name('admin.delivery.village');    
  	});
 	

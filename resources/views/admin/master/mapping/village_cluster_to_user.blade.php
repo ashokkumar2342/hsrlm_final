@@ -10,7 +10,13 @@
  <button type="submit"  class="btn btn-success">Save</button>  
   
    
- </div>   
+ </div>
+ <div class="col-md-1" style="margin-top: 24px"> 
+  
+  <a href="{{ route('admin.village.cluster.report',$user_id) }}" class="btn btn-primary" target="blank" title="">PDF</a>
+  
+   
+ </div>    
  
  
  @include('admin.master.mapping.user_mapped')
