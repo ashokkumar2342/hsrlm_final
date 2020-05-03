@@ -109,7 +109,7 @@
 
                             <div class="table-cell vertical-align-middle auth-form-wrap">
                                 <div class="text-center">
-                                  <a href="#"><img src="{{asset('front_asset/images/logo.png')}}" alt="" style=" padding-top:100px;padding-right: 70px"></a>
+                                  <a href="#"><img src="{{asset('logo/logo.jpg')}}" alt="" style=" padding-top:100px;padding-right: 70px;"></a>
                                     
                                 </div>
                                 <div class="ml-auto mr-auto no-float" style="margin: 30px">

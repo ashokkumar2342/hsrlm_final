@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ISKOOL</title>
+  <title>Jhajjar Mahila Federation</title>
   <!-- Tell the browser to be responsive to screen width -->
   
   <!-- Tell the browser to be responsive to screen width -->
