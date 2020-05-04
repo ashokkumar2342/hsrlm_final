@@ -92,6 +92,13 @@ Route::group(['middleware' => 'admin'], function() {
  	   Route::post('delevery-village-store', 'MasterController@villageDeleveryStore')->name('admin.delevery.village.store');
  	   Route::get('village-cluster-delevery-report/{id?}/{vill_clus_shg}', 'MasterController@villageClusterDeleveryReport')->name('admin.village.cluster.delevery.report');    
  	});
+ 	
+ 	   Route::prefix('order')->group(function () {
+ 	   	Route::get('/', 'OrderController@index')->name('admin.order.index');
+ 	   	Route::get('user-order-list/{user_type_id}', 'OrderController@userOrderList')->name('admin.order.user.order.list');
+ 	   	Route::get('user-order-list-view/{user_id}/{for_date}', 'OrderController@userOrderListView')->name('admin.order.user.order.list.view');
+
+ 	});
 	
             
             

@@ -54,8 +54,26 @@
                    <li><a href="{{ route('admin.delivery.village') }}"><i class="fa fa-circle-o"></i>Delivery  <-> Village/Cluster SHG </a></li> 
                </ul>
            </li>
+           <li>
+            <a href="{{ route('admin.order.index') }}">
+              <i class="fa fa-user"></i> <span>Orders</span>
+               
+            </a>
+          </li>
         @endif 
          @if ($user_type_id==2)
+           <li>
+            <a href="{{ route('admin.profile') }}">
+              <i class="fa fa-user"></i> <span>Profile</span>               
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.logout.get') }}">
+              <i class="fa fa-sign-out"></i> <span>Sign out</span>  
+            </a>
+          </li>
+         @endif
+         @if ($user_type_id==3)
            <li>
             <a href="{{ route('admin.profile') }}">
               <i class="fa fa-user"></i> <span>Profile</span>               

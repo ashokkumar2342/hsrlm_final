@@ -44,9 +44,9 @@ class DashboardController extends Controller
         }elseif($admins->user_type_id==2) {
         //Chairman
             return view('admin/dashboard/farmer_dashboard');
-        }elseif($admins->user_type_id==3) { 
-        //Trustee    
-            return view('admin/dashboard/dashboard_'.'3');
+        }elseif($admins->user_type_id==3) {
+        //Chairman
+            return view('admin/dashboard/farmer_dashboard');
         }elseif($admins->user_type_id==4) {
         //Principal     
             return view('admin/dashboard/dashboard_'.'4');

@@ -1,10 +1,10 @@
- 
-<table class="table table-striped table-bordered table-hover" id="items_table">
+
+ <table class="table table-striped table-bordered table-hover" id="items_table">
     <thead>
         <tr>
             <th class="text-nowrap">Items</th>  
             <th class="text-nowrap">Rate</th>
-            <th class="text-nowrap">Units</th>             
+            <th class="text-nowrap">Quantity</th>             
             <th class="text-nowrap">Total</th>             
         </tr>
     </thead>
@@ -13,8 +13,13 @@
         @php
         	 $RateList=App\Model\RateList::where('for_date',$date)->where('items_id',$Item->id)->first(); 
         	 $purchase_rate =0; 
-        	 if (!empty($RateList)){ 
-        	 $purchase_rate = $RateList->purchase_rate; 
+          	 if (!empty($RateList)){ 
+              $user_type_id =Auth::guard('admin')->user()->user_type_id;
+              if ($user_type_id==2){
+                $purchase_rate = $RateList->purchase_rate;
+              }elseif($user_type_id==3){
+                $purchase_rate = $RateList->sale_rate;
+              } 
         	 }  
         @endphp
         <tr>
@@ -31,14 +36,15 @@
            
             <td> 
             	 <b>{{ $purchase_rate }}</b>
+               <input type="hidden" class="form-control sub_total_item" style="width:60px"   value="{{ $purchase_rate }}" required="" name="rate[{{ $Item->id }}]" id="rate">
             </td>
              <td>
-            	<input type="number" class="form-control item" style="width:60px"   value="0" required="" name="units[]" id="p_rate_{{ $Item->name }}" oninput="calcPrice(this.value,{{ $purchase_rate }},'p_total_{{ $Item->id }}')">
+            	<input type="number" class="form-control item" style="width:60px"   value="0" required="" name="units[{{ $Item->id }}]" id="p_rate_{{ $Item->name }}" oninput="calcPrice(this.value,{{ $purchase_rate }},'p_total_{{ $Item->id }}')">
                 {{-- <input type="number" class="form-con   trol item" style="width:60px"   value="0" required="" name="purchage_rate[]" id="purchage_rate{{ $Item->id }}"> --}}
             </td>
             <td>
                 <span id="p_total_{{ $Item->id }}"></span>
-                <input type="hidden" class="form-control sub_total_item" style="width:60px"   value="0" required="" name="sub_p_total_[]" id="sub_p_total_{{ $Item->id }}">
+                <input type="hidden" class="form-control sub_total_item" style="width:60px"   value="0" required="" name="sub_p_total_[{{ $purchase_rate }}]" id="sub_p_total_{{ $Item->id }}">
             </td>
 
              

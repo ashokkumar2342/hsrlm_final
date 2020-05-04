@@ -9,6 +9,7 @@ use App\Model\DeliveryClusterMap;
 use App\Model\Item;
 use App\Model\Measurement;
 use App\Model\RateList;
+use App\Model\Transaction;
 use App\Model\UserActivity;
 use App\Model\UserDetail;
 use App\Model\Village;
@@ -16,6 +17,7 @@ use App\Model\VillageClusterMap;
 use App\Model\VillageFarmerMap;
 use App\Model\VillageVenderMap;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -195,6 +197,37 @@ class MasterController extends Controller
         $Items=Item::orderBy('name','ASC')->get();
         $date=$request->for_date;  
         return view('admin.master.ratelist.rate_list_farmer_table',compact('Items','date'));
+    }
+    public function rateListPriceFarmerStore(Request $request)
+    {
+      $user =Auth::guard('admin')->user();
+      $rules=[
+         'for_date' => 'required',  
+        ]; 
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $response=array();
+            $response["status"]=0;
+            $response["msg"]=$errors[0];
+            return response()->json($response);// response as json
+        }
+        foreach ($request->units as $key => $value) {
+          if ($value!=0) {
+            $Transaction=new Transaction();
+            $Transaction->user_id=$user->id;
+            $Transaction->user_type_id=$user->user_type_id;
+            $Transaction->for_date=$request->for_date;
+            $Transaction->item_id=$key;
+            $Transaction->qty=$value;
+            $Transaction->rate=$request->rate[$key];
+            $Transaction->save();
+          }
+          }
+          $response=['status'=>1,'msg'=>'Submit Successfully'];
+                return response()->json($response);
+       
+        
     }
     public function rateListPriceStore(Request $request)
     {   $rules=[
