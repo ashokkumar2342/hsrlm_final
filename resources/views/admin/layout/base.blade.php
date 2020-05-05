@@ -78,6 +78,8 @@
        @include('admin.include.farmer_header')
        @elseif($user_type_id==5)
        @include('admin.include.farmer_header')
+       @elseif($user_type_id==6)
+       @include('admin.include.delivery_header')
        
       @endif
      

@@ -8,6 +8,7 @@ use App\Model\BankDetail;
 use App\Model\DeliveryClusterMap;
 use App\Model\Item;
 use App\Model\Measurement;
+use App\Model\Order;
 use App\Model\RateList;
 use App\Model\Transaction;
 use App\Model\UserActivity;
@@ -214,14 +215,23 @@ class MasterController extends Controller
         }
         foreach ($request->units as $key => $value) {
           if ($value!=0) {
-            $Transaction=new Transaction();
+            $orders=new Order();
+            $orders->user_id=$user->id;
+            $orders->user_type_id=$user->user_type_id;
+            $orders->items_id=$key;
+            $orders->unit=$value;
+            $orders->save();
+            $order_id=$orders->id;
+            $Transaction= Transaction::firstOrNew(['id'=>$request->transaction_id[$key]]); 
             $Transaction->user_id=$user->id;
             $Transaction->user_type_id=$user->user_type_id;
             $Transaction->for_date=$request->for_date;
             $Transaction->item_id=$key;
             $Transaction->qty=$value;
             $Transaction->rate=$request->rate[$key];
+            $Transaction->order_id=$order_id;
             $Transaction->save();
+            
           }
           }
           $response=['status'=>1,'msg'=>'Submit Successfully'];

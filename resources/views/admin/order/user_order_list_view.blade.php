@@ -64,13 +64,7 @@
          
     </tbody>
 </table>
-</div> 
- 
-<div class="text-center">
-	<input type="submit" name="Submit" class="btn btn-success">
 </div>
-        
-
 		</div> 
 	</div>
 </div>
