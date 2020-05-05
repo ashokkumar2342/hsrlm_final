@@ -489,7 +489,7 @@ class MasterController extends Controller
     }
     public function villageDeleveryToUser(Request $request)
     { 
-      $coditionId=6;
+      $coditionId=5;
       $conditionid2=$request->cluster_village_shg;
       $user_id=$request->delivery;
       $VillageFarmerMap=DeliveryClusterMap::where('delivery_id',$request->delivery)->where('user_type_id',$request->cluster_village_shg)->pluck('cluster_village_id')->toArray(); 

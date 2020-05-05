@@ -7,30 +7,28 @@
   <table class="table table-condensed "id="user_menu_table" style="width: 100%"> 
     <thead> 
       <tr>
-        @if ($coditionId==5)
-          <th>Cluster SHG</th>
-        @endif
-        @if ($coditionId==4)
-          <th>Village SHG</th>
-        @endif
-        @if ($coditionId==6)
-          <th>Delivery</th>
-        @endif
+       
         @if ($coditionId==2)
+          <th>Village SHG</th>
           <th>Farmer</th>
         @endif
         @if ($coditionId==3)
+          <th>Village SHG</th>
           <th>Vendor</th>
         @endif
         @if ($coditionId==4)
-          <th>Village SHG</th>
-        @endif
-        @if ($conditionid2==4)
-          <th>Village SHG</th>
-        @endif
-        @if ($conditionid2==5)
           <th>Cluster SHG</th>
+          <th>Village SHG</th>
         @endif
+        @if ($coditionId==5)
+          <th>Delivery</th>
+          @if ($conditionid2==4)
+          <th>Village SHG</th>
+          @else
+          <th>Cluster SHG</th>
+          @endif
+        @endif
+       
       </tr>
     </thead>
     <tbody>
