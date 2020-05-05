@@ -96,9 +96,8 @@ Route::group(['middleware' => 'admin'], function() {
  	   Route::prefix('order')->group(function () {
  	   	Route::get('/', 'OrderController@index')->name('admin.order.index');
  	   	Route::get('user-order-list/{user_type_id}', 'OrderController@userOrderList')->name('admin.order.user.order.list');
- 	   	Route::get('user-order-list-view/{user_id}/{for_date}', 'OrderController@userOrderListView')->name('admin.order.user.order.list.view');
-
- 	});
+ 	   	Route::get('user-order-list-view/{user_id}/{for_date}', 'OrderController@userOrderListView')->name('admin.order.user.order.list.view'); 
+ 		});
 	
             
             
