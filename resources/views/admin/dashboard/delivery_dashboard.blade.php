@@ -8,7 +8,8 @@
         <div class="box-body">
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#home">Farmer</a></li>
-              <li><a data-toggle="tab" href="#menu1">Vendor</a></li>
+
+              <li><a data-toggle="tab" href="#menu1" onclick="callAjax(this,'{{ route('delivery.order.list',3) }}','menu1')">Vendor</a></li>
               
             </ul>
             <div class="tab-content">
@@ -22,13 +23,7 @@
                 </div>
               </div>
               <div id="menu1" class="tab-pane fade">
-                <div class="col-lg-4 form-group">
-                <label>For Date</label>
-                    <input type="date" class="form-control" id="for_date"  onchange="callAjax(this,'{{ route('admin.order.user.order.list',3) }}','user_type_order_list_show2')" success-popup="true">
-                </div>
-                <div class="col-lg-12" id="user_type_order_list_show2">
-                    
-                </div>
+                
               </div>
               
             </div>
