@@ -104,6 +104,13 @@ Route::group(['middleware' => 'admin'], function() {
  	   	Route::post('delevery-user-order-list-store/{for_date}', 'OrderController@userTypeOrderListStore')->name('delevery.order.user.order.store');
 
  		});
+ 	   Route::prefix('passbook')->group(function () {
+ 	   
+ 	   	Route::get('/', 'PassbookController@list')->name('admin.vender.passbook');
+ 	   	Route::get('passbok-table', 'PassbookController@passbookTable')->name('admin.vender.passbook.table');
+ 	   	 
+
+ 		});
 
 
 	

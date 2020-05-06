@@ -5,10 +5,10 @@
 @section('body')
 <section class="content"> 
     <div class="box">
-     <div class="box-body">
+     <div class="box-body"> 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#home">Items List </a></li>
-  <li><a data-toggle="tab" href="#menu1">Passbook</a></li>
+  <li><a data-toggle="tab" href="#menu1" onclick="callAjax(this,'{{ route('admin.vender.passbook') }}','menu1')">Passbook</a></li>
 </ul>
 <form action="{{ route('admin.master.rate.list.price.farmer.store') }}" method="post" class="add_form" no-reset="true">
 {{ csrf_field() }}
@@ -28,18 +28,8 @@
     </div>
   </div>
   <div id="menu1" class="tab-pane fade">
-  <div class="row"> 
-      <div class="col-lg-4 form-group">
-      <label>For Date</label>
-          <input type="date" value = "{{date('Y-m-d')}}" class="form-control item" id="for_date" name="for_date" onchange="callAjax(this,'{{ route('admin.master.rate.list.price.farmer') }}'+'?for_date='+$('#for_date').val(),'passbook_list')" success-popup="true">
-      </div> 
-       
-  </div>
-  <div class="row">  
-      <div class="col-lg-12" id="passbook_list">
-          
-      </div>
-  </div>
+    
+  
   </div>
 </div>
 </form>
