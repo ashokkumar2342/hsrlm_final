@@ -28,7 +28,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
               <div id="photo_refrash">
-               Units :  <b><span id="total_units"></span></b>
+               Quantity :  <b><span id="total_units"></span></b>
               </div>
              
             </a> 
