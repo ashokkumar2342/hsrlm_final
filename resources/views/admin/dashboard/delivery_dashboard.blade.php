@@ -16,7 +16,7 @@
               <div id="home" class="tab-pane fade in active">
                 <div class="col-lg-4 form-group">
                 <label>For Date</label>
-                    <input type="date" class="form-control" id="for_date" value = "{{date('Y-m-d')}}" onchange="callAjax(this,'{{ route('admin.order.user.order.list',2) }}','user_type_order_list_show')" success-popup="true">
+                    <input type="date" class="form-control" id="for_date" value = "{{date('Y-m-d')}}" onchange="callAjax(this,'{{ route('delevery.order.user.order.list',2) }}','user_type_order_list_show')" success-popup="true">
                 </div>
               <div id="user_type_order_list_show">
                     

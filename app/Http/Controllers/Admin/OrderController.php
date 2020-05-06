@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
   
 use App\Http\Controllers\Controller;
 use App\Model\DeliveryClusterMap;
+use App\Model\FinalTransaction;
 use App\Model\Transaction;
 use App\Model\VillageVenderMap;
 use App\User;
@@ -54,5 +55,45 @@ class OrderController extends Controller
         $for_date =$request->id;
         return view('admin.delivery.user_order_list',compact('users','for_date'))->render();
      }
+     public function userTypeOrderListView($user_id,$for_date)
+     {
+          
+         $orderLists=Transaction::where('for_date',$for_date)->where('user_id',$user_id)->get();
+        return view('admin.delivery.user_order_list_view',compact('orderLists','for_date','user_id'));
+     }
+
+     public function userTypeOrderListStore(Request $request,$for_date)
+    { 
+      $user =Auth::guard('admin')->user();
+      $rules=[
+           
+        ]; 
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $response=array();
+            $response["status"]=0;
+            $response["msg"]=$errors[0];
+            return response()->json($response);// response as json
+        }
+        foreach ($request->units as $key => $value) {
+          if ($value!=0) {
+            $FinalTransaction=new FinalTransaction(); 
+            $FinalTransaction->user_id=$user->id;
+            $FinalTransaction->user_type_id=$user->user_type_id;
+            $FinalTransaction->for_date=$request->for_date;
+            $FinalTransaction->item_id=$key;
+            $FinalTransaction->qty=$value;
+            $FinalTransaction->rate=$request->rate[$key];
+            $FinalTransaction->order_id=$request->order_id[$key];
+            $FinalTransaction->save();
+            
+          }
+          }
+          $response=['status'=>1,'msg'=>'Submit Successfully'];
+                return response()->json($response);
+       
+        
+    }
 
 }

@@ -100,6 +100,8 @@ Route::group(['middleware' => 'admin'], function() {
 
  	   	Route::get('order-list/{user_type}', 'OrderController@orderList')->name('delivery.order.list');
  	   	Route::get('user-order-list-delevery/{user_type}', 'OrderController@userTypeOrderList')->name('delevery.order.user.order.list');
+ 	   	Route::get('delevery-user-order-list-view/{user_id}/{for_date}', 'OrderController@userTypeOrderListView')->name('delevery.order.user.order.view');
+ 	   	Route::post('delevery-user-order-list-store/{for_date}', 'OrderController@userTypeOrderListStore')->name('delevery.order.user.order.store');
 
  		});
 

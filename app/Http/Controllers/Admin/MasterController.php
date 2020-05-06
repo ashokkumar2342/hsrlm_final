@@ -310,7 +310,7 @@ class MasterController extends Controller
           $VillageFarmerMapold =VillageFarmerMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
           $uctOld=VillageFarmerMap::whereIn('id',$VillageFarmerMapold)->update(['farmer_id'=>0]);
           foreach ($request->farmer_id as $key => $value) {
-           $VillageFarmerMap=VillageFarmerMap::firstOrNew(['farmer_id'=>$value]); 
+           $VillageFarmerMap=VillageFarmerMap::firstOrNew(['farmer_id'=>$value,'village_shg_id'=>$request->user]); 
            $VillageFarmerMap->farmer_id=$value; 
            $VillageFarmerMap->village_shg_id=$request->user; 
            $VillageFarmerMap->save();
@@ -380,7 +380,7 @@ class MasterController extends Controller
           $VillageFarmerMapold =VillageVenderMap::where('village_shg_id',$request->user)->pluck('id')->toArray();
           $uctOld=VillageVenderMap::whereIn('id',$VillageFarmerMapold)->update(['vender_id'=>0]);
           foreach ($request->vendor as $key => $value) {
-           $VillageFarmerMap=VillageVenderMap::firstOrNew(['vender_id'=>$value]); 
+           $VillageFarmerMap=VillageVenderMap::firstOrNew(['vender_id'=>$value,'village_shg_id'=>$request->user]); 
            $VillageFarmerMap->vender_id=$value; 
            $VillageFarmerMap->village_shg_id=$request->user; 
            $VillageFarmerMap->save();
@@ -450,7 +450,7 @@ class MasterController extends Controller
           $VillageFarmerMapold =VillageClusterMap::where('cluster_shg_id',$request->user)->pluck('id')->toArray();
           $uctOld=VillageClusterMap::whereIn('id',$VillageFarmerMapold)->update(['village_id'=>0]);
           foreach ($request->village as $key => $value) {
-           $VillageFarmerMap=VillageClusterMap::firstOrNew(['village_id'=>$value]); 
+           $VillageFarmerMap=VillageClusterMap::firstOrNew(['village_id'=>$value,'cluster_shg_id'=>$request->user]); 
            $VillageFarmerMap->village_id=$value; 
            $VillageFarmerMap->cluster_shg_id=$request->user; 
            $VillageFarmerMap->save();
