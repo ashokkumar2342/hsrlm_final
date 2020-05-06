@@ -85,6 +85,18 @@
             </a>
           </li>
          @endif
+         @if ($user_type_id==6)
+           <li>
+            <a href="{{ route('admin.profile') }}">
+              <i class="fa fa-user"></i> <span>Profile</span>               
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.logout.get') }}">
+              <i class="fa fa-sign-out"></i> <span>Sign out</span>  
+            </a>
+          </li>
+         @endif
   
           
          
