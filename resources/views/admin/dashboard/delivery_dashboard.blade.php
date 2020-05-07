@@ -9,7 +9,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#home">Farmer</a></li>
 
-              <li><a data-toggle="tab" href="#menu1" onclick="callAjax(this,'{{ route('delivery.order.list',3) }}','menu1')">Vendor</a></li>
+              <li><a data-toggle="tab" href="#menu1" select-triger="d_for_date" onclick="callAjax(this,'{{ route('delivery.order.list',3) }}','menu1')">Vendor</a></li>
               
             </ul>
             <div class="tab-content">

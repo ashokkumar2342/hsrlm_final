@@ -8,9 +8,9 @@
      <div class="box-body"> 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#home">Items List </a></li>
-  <li><a data-toggle="tab" href="#menu1" onclick="callAjax(this,'{{ route('admin.vender.passbook') }}','menu1')">Passbook</a></li>
+  <li><a data-toggle="tab" href="#menu1" select-triger="p_for_date" onclick="callAjax(this,'{{ route('admin.vender.passbook') }}','menu1')">Passbook</a></li>
 </ul>
-<form action="{{ route('admin.master.rate.list.price.farmer.store') }}" method="post" class="add_form" no-reset="true">
+<form action="{{ route('admin.master.rate.list.price.farmer.store') }}" method="post" class="add_form" no-reset="true" select-triger="for_date">
 {{ csrf_field() }}
 <div class="tab-content">
   <div id="home" class="tab-pane fade in active">

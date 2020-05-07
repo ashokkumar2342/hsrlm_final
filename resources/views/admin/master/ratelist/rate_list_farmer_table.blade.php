@@ -20,10 +20,12 @@
               if(!empty($transaction)){
                $Qty=$transaction->qty;
                $transaction_id=$transaction->id;
+               $order_id=$transaction->order_id;
                $rate =$transaction->rate;
               }else{
                 $Qty=0;
                 $transaction_id='';
+                $order_id='';
               } 
               if ($users->user_type_id==2){
                 $purchase_rate = $RateList->purchase_rate;
@@ -47,6 +49,8 @@
            
             <td> 
             	 <b>{{ $purchase_rate }}</b>
+               <input type="hidden" class="form-control" style="width:60px"   value="{{ @$order_id}}" required="" name="order_id[{{ $Item->id }}]" id="rate">
+
                <input type="hidden" class="form-control" style="width:60px"   value="{{ $purchase_rate }}" required="" name="rate[{{ $Item->id }}]" id="rate">
             </td>
              <td>

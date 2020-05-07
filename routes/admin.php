@@ -75,7 +75,7 @@ Route::group(['middleware' => 'admin'], function() {
  	    Route::get('village-farmer', 'MasterController@villageFarmer')->name('admin.village.farmer');
  	    Route::post('village-farmer-store', 'MasterController@villageFarmerStore')->name('admin.village.farmer.store');
  	    Route::get('village-farmer-to-user', 'MasterController@villageFarmerToUser')->name('admin.village.farmer.to.user');
- 	    Route::get('village-farmer-report/{id?}', 'MasterController@villageFarmerReport')->name('admin.village.farmer.report');
+ 	    Route::get('village-farmer-report/{id?}/{report_type}', 'MasterController@villageFarmerReport')->name('admin.village.farmer.report');
 
  	    Route::get('village-vendor', 'MasterController@villageVendor')->name('admin.village.vendor');
  	    Route::get('village-vendor-to-user', 'MasterController@villageVendorToUser')->name('admin.village.vendor.to.user');

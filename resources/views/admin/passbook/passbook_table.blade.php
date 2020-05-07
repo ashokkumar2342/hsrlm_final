@@ -14,10 +14,11 @@
 		@foreach ($passbooks as $passbook)
 		 
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>{{ $passbook->order_id }}</td>
+			<td>{{ $passbook->delivery_date }}</td>
+			<td>{{ $passbook->delivery_date }}</td>
+			<td>{{ $passbook->delivery_date }}</td>
+			
 			 
 			 
 		</tr>

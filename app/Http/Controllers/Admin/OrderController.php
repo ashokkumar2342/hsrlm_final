@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\DeliveryClusterMap;
 use App\Model\FinalTransaction;
+use App\Model\Passbook;
 use App\Model\Transaction;
+use App\Model\VillageFarmerMap;
 use App\Model\VillageVenderMap;
 use App\User;
 use Auth;
@@ -46,7 +48,11 @@ class OrderController extends Controller
         $Transaction =new Transaction();
         $user =Auth::guard('admin')->user(); 
         $cluster_village_id =DeliveryClusterMap::where('delivery_id',$user->id)->where('user_type_id',4)->pluck('cluster_village_id')->toArray();
-        $village_shg_id =VillageVenderMap::whereIn('village_shg_id',$cluster_village_id)->pluck('vender_id')->toArray();
+        if ($user_type==3) {
+        $village_shg_id =VillageVenderMap::whereIn('village_shg_id',$cluster_village_id)->pluck('vender_id')->toArray();            
+        }else{
+         $village_shg_id =VillageFarmerMap::whereIn('village_shg_id',$cluster_village_id)->pluck('farmer_id')->toArray(); 
+        }
 
          $user_arr_id=Transaction::where('for_date',$request->id)
                                 ->whereIn('user_id',$village_shg_id)
@@ -87,7 +93,13 @@ class OrderController extends Controller
             $FinalTransaction->rate=$request->rate[$key];
             $FinalTransaction->order_id=$request->order_id[$key];
             $FinalTransaction->save();
-            
+            $Passbooks=Passbook::firstOrNew(['order_id'=>$request->order_id[$key]]); 
+            $Passbooks->for_date=$request->for_date;
+            $Passbooks->order_id=$request->order_id[$key];
+            $Passbooks->delivery_date=date('Y-m-d');
+            $Passbooks->delivery_by_user_id=$user->id;
+            $Passbooks->vendor_id=$request->user_id;
+            $Passbooks->save();
           }
           }
           $response=['status'=>1,'msg'=>'Submit Successfully'];

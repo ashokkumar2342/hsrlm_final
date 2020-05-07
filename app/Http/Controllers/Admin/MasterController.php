@@ -215,7 +215,7 @@ class MasterController extends Controller
         }
         foreach ($request->units as $key => $value) {
           if ($value!=0) {
-            $orders=new Order();
+            $orders=Order::firstOrNew(['id'=>$request->order_id[$key]]);
             $orders->user_id=$user->id;
             $orders->user_type_id=$user->user_type_id;
             $orders->items_id=$key;
@@ -319,11 +319,11 @@ class MasterController extends Controller
         }  
       return $response;
     }
-    public function villageFarmerReport($id)
+    public function villageFarmerReport($user_id,$report_type)
     {
       $coditionId=2;
-      $user_id=$id;
-      $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$id)->pluck('farmer_id')->toArray(); 
+      $user_id=$user_id;
+      $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$user_id)->pluck('farmer_id')->toArray(); 
       $user =new User();
       $to_users =$user->getUserByUserTypeId(2);
       $data=array();

@@ -1,5 +1,5 @@
  
-<div class="col-lg-6"> 
+<div class="col-lg-5"> 
  {{ Form::label('Farmer','Farmer',['class'=>' control-label']) }} <br>
 <select class="multiselect" multiple="multiple"  name="farmer_id[]" > 
   @foreach ($to_users as $user) 
@@ -12,9 +12,12 @@
   
    
  </div>
- <div class="col-md-1" style="margin-top: 24px"> 
+ <div class="col-md-2" style="margin-top: 24px"> 
   
-  <a href="{{ route('admin.village.farmer.report',$user_id) }}" class="btn btn-primary" target="blank" title="">PDF</a>
+  <a href="{{ route('admin.village.farmer.report',[$user_id,1]) }}" class="btn btn-default" target="blank" title="">PDF</a>
+
+  
+  <a href="{{ route('admin.village.farmer.report',[$user_id,2]) }}" class="btn btn-default" target="blank" title="">Excel</a>
   
    
  </div>    
