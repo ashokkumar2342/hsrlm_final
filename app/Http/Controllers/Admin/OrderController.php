@@ -78,7 +78,7 @@ class OrderController extends Controller
         }
         foreach ($request->units as $key => $value) {
           if ($value!=0) {
-            $FinalTransaction=new FinalTransaction(); 
+            $FinalTransaction=FinalTransaction::firstOrNew(['order_id'=>$request->order_id[$key]]); 
             $FinalTransaction->user_id=$user->id;
             $FinalTransaction->user_type_id=$user->user_type_id;
             $FinalTransaction->for_date=$request->for_date;

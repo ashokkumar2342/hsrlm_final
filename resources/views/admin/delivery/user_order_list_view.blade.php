@@ -11,7 +11,7 @@
       @endphp
         <span>User Name : <b>{{ $userDetails->first_name }}</b></span></br> 
         <span>Mobile No. : <b>{{ $userDetails->mobile_no }}</b></span>
-<form action="{{ route('delevery.order.user.order.store',$for_date) }}" method="post" class="add_form">
+<form action="{{ route('delevery.order.user.order.store',$for_date) }}" method="post" class="add_form" button-click="btn_close">
 <div class="table-responsive">
  <table class="table table-striped table-bordered table-hover" id="items_table">
     <thead>
