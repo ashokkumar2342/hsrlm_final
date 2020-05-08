@@ -13,13 +13,4 @@ class VillageFarmerMap extends Model
     protected $table ='vill_shg_farmer_map';
 
     public $timestamps=false;
-
-    public function Village() {
-        
-        return $this->hasOne('App\User', 'id', 'village_shg_id');
-    }
-    public function farmer() {
-        
-        return $this->hasOne('App\User', 'id', 'farmer_id');
-    }
 }
