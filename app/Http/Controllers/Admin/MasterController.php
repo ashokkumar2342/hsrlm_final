@@ -321,6 +321,7 @@ class MasterController extends Controller
     }
     public function villageFarmerReport($user_id,$report_type)
     {
+      
       $coditionId=2;
       $user_id=$user_id;
       $VillageFarmerMap=VillageFarmerMap::where('village_shg_id',$user_id)->pluck('farmer_id')->toArray(); 
@@ -336,6 +337,16 @@ class MasterController extends Controller
             'tempDir' => storage_path('logs/')
         ])
         ->loadView('admin.master.mapping.user_mapped',$data);
+        // if ($report_type==2) {
+         
+        //     return \Excel::create('download', function($excel) use ($VillageFarmerMap) {
+        //       $excel->sheet('mySheet', function($sheet) use ($VillageFarmerMap)
+        //           {
+        //           $sheet->fromArray($VillageFarmerMap);
+        //           });
+
+        //     })->download('xlsx');
+        // }
         return $pdf->stream('village_farmer_report.pdf');
     } 
 
