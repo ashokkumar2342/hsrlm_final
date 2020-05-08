@@ -27,8 +27,12 @@ class PassbookController extends Controller
      {
         $user =Auth::guard('admin')->user();
         $passbooks =Passbook::whereBetween('on_date',array($reqeust->from_date,$reqeust->to_date))->where('user_id',$user->id)->get();
+        $credit =Passbook::whereBetween('on_date',array($reqeust->from_date,$reqeust->to_date))->where('user_id',$user->id)->where('transaction_type',1)->sum('total_amount');
+        $debit =Passbook::whereBetween('on_date',array($reqeust->from_date,$reqeust->to_date))->where('user_id',$user->id)->where('transaction_type',2)->sum('total_amount');
+        $balance = $credit - $debit;
         $data =array();
         $data['passbooks'] =$passbooks;
+        $data['balance'] =$balance;
         $response =array();
         $response['status']=1;       
          $response['data'] =view('admin.passbook.passbook_table',$data)->render();

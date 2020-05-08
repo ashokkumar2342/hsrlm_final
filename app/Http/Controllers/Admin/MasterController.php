@@ -213,23 +213,27 @@ class MasterController extends Controller
             $response["msg"]=$errors[0];
             return response()->json($response);// response as json
         }
+        $TransactionOrder= Transaction::where('user_id',$user->id)->where('for_date',$request->for_date)->first();
+        if (empty($TransactionOrder)) {
+            
+             $orders=new Order();
+             $orders->user_id=$user->id;
+             $orders->user_type_id=$user->user_type_id; 
+             $orders->save();
+             $order_id =$orders->id;
+         } else{
+            $order_id =$TransactionOrder->order_id;
+         }
         foreach ($request->units as $key => $value) {
-          if ($value!=0) {
-            $orders=Order::firstOrNew(['id'=>$request->order_id[$key]]);
-            $orders->user_id=$user->id;
-            $orders->user_type_id=$user->user_type_id;
-            $orders->items_id=$key;
-            $orders->unit=$value;
-            $orders->save();
-            $order_id=$orders->id;
+          if ($value!=0) { 
             $Transaction= Transaction::firstOrNew(['id'=>$request->transaction_id[$key]]); 
             $Transaction->user_id=$user->id;
             $Transaction->user_type_id=$user->user_type_id;
             $Transaction->for_date=$request->for_date;
             $Transaction->item_id=$key;
             $Transaction->qty=$value;
-            $Transaction->rate=$request->rate[$key];
-            $Transaction->order_id=$order_id;
+            $Transaction->rate=$request->rate[$key]; 
+            $Transaction->order_id=$order_id; 
             $Transaction->save();
             
           }

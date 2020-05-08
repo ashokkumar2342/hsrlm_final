@@ -82,26 +82,31 @@ class OrderController extends Controller
             $response["msg"]=$errors[0];
             return response()->json($response);// response as json
         }
+        $total_amount =0;
         foreach ($request->units as $key => $value) {
           if ($value!=0) {
-            $FinalTransaction=FinalTransaction::firstOrNew(['order_id'=>$request->order_id[$key]]); 
+            $FinalTransaction=FinalTransaction::firstOrNew(['id'=>$request->f_t_id]); 
             $FinalTransaction->user_id=$request->user_id;
             $FinalTransaction->user_type_id=$request->user_type_id;
             $FinalTransaction->for_date=$request->for_date;
             $FinalTransaction->item_id=$key;
             $FinalTransaction->qty=$value;
             $FinalTransaction->rate=$request->rate[$key];
-            $FinalTransaction->order_id=$request->order_id[$key];
+            $FinalTransaction->order_id=$request->order_id;
             $FinalTransaction->save();
-            $Passbooks=Passbook::firstOrNew(['order_id'=>$request->order_id[$key]]); 
-            $Passbooks->for_date=$request->for_date;
-            $Passbooks->order_id=$request->order_id[$key];
-            $Passbooks->delivery_date=date('Y-m-d');
-            $Passbooks->delivery_by_user_id=$user->id;
-            $Passbooks->user_id=$request->user_id;
-            $Passbooks->save();
+            $total_amount += $value*$request->rate[$key];
+            }
           }
-          }
+          $Passbooks=Passbook::firstOrNew(['order_id'=>$request->order_id]); 
+          $Passbooks->for_date=$request->for_date;
+          $Passbooks->order_id=$request->order_id;
+          $Passbooks->delivery_date=date('Y-m-d');
+          $Passbooks->delivery_by_user_id=$user->id;
+          $Passbooks->user_id=$request->user_id;
+          $Passbooks->total_amount=$total_amount;
+          $Passbooks->transaction_type=1;
+          $Passbooks->on_date=date('Y-m-d');
+          $Passbooks->save();
           $response=['status'=>1,'msg'=>'Submit Successfully'];
                 return response()->json($response);
        

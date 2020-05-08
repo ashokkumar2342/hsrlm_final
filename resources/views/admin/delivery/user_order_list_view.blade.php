@@ -29,7 +29,10 @@
         	 $purchase_rate =0; 
           	 if (!empty($RateList)){ 
               $user_type_id =Auth::guard('admin')->user()->user_type_id;
-               $transaction=App\Model\Transaction::where('user_id',$user_id)->where('for_date',$for_date)->where('item_id',$orderList->item_id)->first(); 
+               $transaction=App\Model\Transaction::where('user_id',$user_id)->where('for_date',$for_date)->where('item_id',$orderList->item_id)->first();
+
+               $final_transaction=App\Model\FinalTransaction::where('user_id',$user_id)->where('for_date',$for_date)->where('item_id',$orderList->item_id)->first();
+
               if(!empty($transaction)){
                $Qty=$transaction->qty;
                $transaction_id=$transaction->id;
@@ -61,11 +64,13 @@
                 <h5> {{ $orderList->Items->name or ''}}</h5>                
             </td>
             
+               <input type="hidden" class="form-control" style="width:60px"   value="{{ @$final_transaction }}" required="" name="f_t_id">
+
                <input type="hidden" class="form-control" style="width:60px"   value="{{ @$user_type_id }}" required="" name="user_type_id">
 
                <input type="hidden" class="form-control" style="width:60px"   value="{{ @$user_id }}" required="" name="user_id">
 
-               <input type="hidden" class="form-control" style="width:60px"   value="{{ $orderList->order_id }}" required="" name="order_id[{{ $orderList->item_id }}]">
+               <input type="hidden" class="form-control" style="width:60px"   value="{{ $orderList->order_id }}" required="" name="order_id">
 
                <input type="hidden" class="form-control" style="width:60px"   value="{{ $orderList->rate }}" required="" name="rate[{{ $orderList->item_id }}]" id="rate">
            
