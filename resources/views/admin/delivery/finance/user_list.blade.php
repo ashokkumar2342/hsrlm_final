@@ -4,25 +4,17 @@
 		<tr>
 			<th>User</th>
 			<th>Mobile No.</th>
-			<th>Qty.</th>
+			 
 			
 			{{-- <th>Action</th> --}}
 		</tr>
 	</thead>
 	<tbody>
-		@foreach ($passbooks as $passbook)
-		{{-- @php
-		    $Quantity=App\Model\Passbook::where('user_id',$passbook->user_id)->sum('qty');
-		    $rate=App\Model\Transaction::where('for_date',$for_date)->where('user_id',$user->id)->sum('rate');
-		@endphp --}}
-		<tr>
-			<td>{{ $passbook->users->first_name or '' }}</td>
-			<td>{{ $passbook->users->mobile_no or '' }}</td>
-			<td></td>
-			
-			{{-- <td>
-				<a href="#" onclick="callPopupLarge(this,'{{ route('admin.order.user.order.list.view',[$user->user_id,$for_date]) }}')" title="" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a>
-			</td> --}}
+		@foreach ($users as $user) 
+		<tr onclick="callPopupLarge(this,'{{ route('admin.delivery.finance.userList.payment',[$user->id,$user_type_id]) }}')">
+			<td>{{ $user->first_name or '' }}</td>
+			<td>{{ $user->mobile_no or '' }}</td>
+			 
 		</tr>
 		@endforeach
 		

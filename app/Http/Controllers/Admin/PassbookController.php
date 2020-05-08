@@ -26,10 +26,13 @@ class PassbookController extends Controller
      public function passbookTable(Request $reqeust)
      {
         $user =Auth::guard('admin')->user();
-        $passbooks =Passbook::where('for_date',$reqeust->for_date)->where('user_id',$user->id)->get();
+        $passbooks =Passbook::whereBetween('on_date',array($reqeust->from_date,$reqeust->to_date))->where('user_id',$user->id)->get();
         $data =array();
         $data['passbooks'] =$passbooks;
-        return view('admin.passbook.passbook_table',$data);
+        $response =array();
+        $response['status']=1;       
+         $response['data'] =view('admin.passbook.passbook_table',$data)->render();
+         return $response;
      }
      
 

@@ -1,9 +1,20 @@
- <div class="row"> 
+ <form action="{{ route('admin.vender.passbook.table') }}" method="post"  class="add_form" button-click="btn_close" success-content-id="passbook_list" no-reset="true">
+ 	{{ csrf_field() }}
+ <div class="row">  
     <div class="col-lg-4 form-group">
-    <label>For Date</label>
-        <input type="date" value = "{{date('Y-m-d')}}" class="form-control item" id="p_for_date" name="for_date" onchange="callAjax(this,'{{ route('admin.vender.passbook.table') }}'+'?for_date='+$('#p_for_date').val(),'passbook_list')" success-popup="true">
+    <label>Form Date</label>
+        <input type="date" class="form-control"  name="from_date" >
+    </div> 
+    <div class="col-lg-4 form-group">
+    <label>To Date</label>
+        <input type="date" class="form-control" name="to_date">
+    </div>
+    <div class="col-lg-4 form-group"><br>
+     <input type="submit" name="submit" value="Show" class="form-control btn btn-success">
+        
     </div>  
     <div class="col-lg-12" id="passbook_list"> 
     </div>  
 </div>
+</form>
 

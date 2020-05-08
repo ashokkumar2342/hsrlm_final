@@ -107,13 +107,15 @@ Route::group(['middleware' => 'admin'], function() {
  	   Route::prefix('passbook')->group(function () {
  	   
  	   	Route::get('/', 'PassbookController@list')->name('admin.vender.passbook');
- 	   	Route::get('passbok-table', 'PassbookController@passbookTable')->name('admin.vender.passbook.table');
+ 	   	Route::post('passbok-table', 'PassbookController@passbookTable')->name('admin.vender.passbook.table');
  	   	 
 
  		});
  	   Route::prefix('finance')->group(function () {
  	   	Route::get('/', 'FinanceController@index')->name('admin.delivery.finance');
  	   	Route::get('user-list/{id?}', 'FinanceController@userList')->name('admin.delivery.finance.userList');
+ 	   	Route::get('user-list-payment/{id?}/{user_type_id}', 'FinanceController@userListPayment')->name('admin.delivery.finance.userList.payment');
+ 	   	Route::post('user-list-payment-store/{id}/{user_type_id}', 'FinanceController@userListPaymentStore')->name('admin.delivery.finance.userList.payment.store');
  	   	 
 
  		});

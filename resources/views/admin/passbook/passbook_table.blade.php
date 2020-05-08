@@ -1,11 +1,14 @@
+<div class="text-right">
+	<span>Total Rs: {{ $passbooks->sum('total_amount') }}</span>
+</div>
 <table class="table table-striped table-bordered table-hover">
 	<thead>
 		<tr>
 			 
-			<th>Order Id</th>
-			<th>Delivery Date</th>
-			<th>Transaction Type</th>
-			<th>Total Amount</th>
+			<th>Receipt Id</th>
+			<th>On Date</th>
+			<th>Amount</th>
+			 
 			
 			 
 		</tr>
@@ -13,14 +16,10 @@
 	<tbody>
 		@foreach ($passbooks as $passbook)
 		 
-		<tr>
-			<td>{{ $passbook->order_id }}</td>
-			<td>{{ $passbook->delivery_date }}</td>
-			<td>{{ $passbook->delivery_date }}</td>
-			<td>{{ $passbook->delivery_date }}</td>
-			
-			 
-			 
+		<tr> 
+			<td>{{ $passbook->receipt_id }}</td>
+			<td>{{ $passbook->on_date }}</td>
+			<td>{{ $passbook->total_amount }}</td> 
 		</tr>
 		@endforeach
 		
