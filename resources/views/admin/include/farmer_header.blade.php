@@ -18,7 +18,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                
+                 <a href="{{ route('admin.dashboard') }}"  role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                  <i class="fa fa-home  fa-lg  " aria-hidden="true"  style="padding-top: 17px; padding-left: 20px; color:#fff;" ></i>
+                   
+                </a>
                 <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
           
