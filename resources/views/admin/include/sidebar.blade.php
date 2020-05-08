@@ -95,6 +95,11 @@
             <a href="{{ route('admin.logout.get') }}">
               <i class="fa fa-sign-out"></i> <span>Sign out</span>  
             </a>
+          </li>          
+          <li>
+            <a href="{{ route('admin.delivery.finance') }}">
+              <i class="fa fa-rupee"></i> <span>Finance</span>  
+            </a>
           </li>
          @endif
   

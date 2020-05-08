@@ -85,8 +85,8 @@ class OrderController extends Controller
         foreach ($request->units as $key => $value) {
           if ($value!=0) {
             $FinalTransaction=FinalTransaction::firstOrNew(['order_id'=>$request->order_id[$key]]); 
-            $FinalTransaction->user_id=$user->id;
-            $FinalTransaction->user_type_id=$user->user_type_id;
+            $FinalTransaction->user_id=$request->user_id;
+            $FinalTransaction->user_type_id=$request->user_type_id;
             $FinalTransaction->for_date=$request->for_date;
             $FinalTransaction->item_id=$key;
             $FinalTransaction->qty=$value;
@@ -98,7 +98,7 @@ class OrderController extends Controller
             $Passbooks->order_id=$request->order_id[$key];
             $Passbooks->delivery_date=date('Y-m-d');
             $Passbooks->delivery_by_user_id=$user->id;
-            $Passbooks->vendor_id=$request->user_id;
+            $Passbooks->user_id=$request->user_id;
             $Passbooks->save();
           }
           }

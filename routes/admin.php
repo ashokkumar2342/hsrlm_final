@@ -111,6 +111,12 @@ Route::group(['middleware' => 'admin'], function() {
  	   	 
 
  		});
+ 	   Route::prefix('finance')->group(function () {
+ 	   	Route::get('/', 'FinanceController@index')->name('admin.delivery.finance');
+ 	   	Route::get('user-list/{id?}', 'FinanceController@userList')->name('admin.delivery.finance.userList');
+ 	   	 
+
+ 		});
 
 
 	

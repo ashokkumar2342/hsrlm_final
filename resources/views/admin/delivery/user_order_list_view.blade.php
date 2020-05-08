@@ -35,6 +35,7 @@
                $transaction_id=$transaction->id;
                $rate =$transaction->rate;
                $user_id =$transaction->user_id;
+               $user_type_id =$transaction->user_type_id;
               }else{
                 $Qty=0;
                 $transaction_id='';
@@ -60,6 +61,8 @@
                 <h5> {{ $orderList->Items->name or ''}}</h5>                
             </td>
             
+               <input type="hidden" class="form-control" style="width:60px"   value="{{ @$user_type_id }}" required="" name="user_type_id">
+
                <input type="hidden" class="form-control" style="width:60px"   value="{{ @$user_id }}" required="" name="user_id">
 
                <input type="hidden" class="form-control" style="width:60px"   value="{{ $orderList->order_id }}" required="" name="order_id[{{ $orderList->item_id }}]">
