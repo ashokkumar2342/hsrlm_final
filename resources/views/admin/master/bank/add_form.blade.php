@@ -69,7 +69,7 @@
                    </div>
                    <div class="col-lg-12 form-group">
                     <label>Bank Address</label>
-                    <textarea name="bank_address" class="form-control" maxlength="200">{{ @$bankDetail->bank_address }}"</textarea>
+                    <textarea name="bank_address" class="form-control" maxlength="200">{{ @$bankDetail->bank_address }}</textarea>
                    </div> 
                 </div>  
               </div>
