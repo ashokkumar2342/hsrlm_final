@@ -97,6 +97,7 @@ Route::group(['middleware' => 'admin'], function() {
  	   	Route::get('/', 'OrderController@index')->name('admin.order.index');
  	   	Route::get('user-order-list/{user_type_id}', 'OrderController@userOrderList')->name('admin.order.user.order.list');
  	   	Route::get('user-order-list-view/{user_id}/{for_date}', 'OrderController@userOrderListView')->name('admin.order.user.order.list.view'); 
+ 	   	Route::post('user-order-list-export', 'OrderController@userOrderListExport')->name('admin.order.user.order.list.export'); 
 
  	   	Route::get('order-list/{user_type}', 'OrderController@orderList')->name('delivery.order.list');
  	   	Route::get('user-order-list-delevery/{user_type}', 'OrderController@userTypeOrderList')->name('delevery.order.user.order.list');

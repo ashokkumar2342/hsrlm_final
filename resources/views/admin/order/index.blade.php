@@ -9,7 +9,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#home">Farmer</a></li>
               <li><a data-toggle="tab" href="#menu1">Vendor</a></li>
-              
+              <li><a data-toggle="tab" href="#menu2">Export Report</a></li>
             </ul>
             <div class="tab-content">
               <div id="home" class="tab-pane fade in active">
@@ -30,7 +30,27 @@
                     
                 </div>
               </div>
-              
+              <div id="menu2" class="tab-pane fade">
+              <form action="{{ route('admin.order.user.order.list.export') }}" method="post">
+                {{ csrf_field() }}
+                <div class="col-lg-4 form-group">
+                <label>For Date</label>
+                    <input type="date" name="for_date" class="form-control" id="for_date">
+                </div>
+                <div class="col-lg-4 form-group">
+                  <label>User Type</label>
+                  <select name="user_type_id" class="form-control">
+                    <option value="2">Farmer</option>
+                    <option value="3">Vendor</option>
+                  </select>
+                  
+                </div>
+                <div class="col-lg-4">
+                   <input type="submit" value="Export" formtarget="_blank" class="btn-primary btn" style="margin-top: 24px">
+                 </div> 
+            </form>
+              </div>
+
             </div>
         </div>
     </div>

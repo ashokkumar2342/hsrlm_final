@@ -105,12 +105,52 @@ class OrderController extends Controller
           $Passbooks->user_id=$request->user_id;
           $Passbooks->total_amount=$total_amount;
           $Passbooks->transaction_type=1;
-          $Passbooks->on_date=date('Y-m-d');
+          $Passbooks->on_date=$request->for_date;
           $Passbooks->save();
           $response=['status'=>1,'msg'=>'Submit Successfully'];
                 return response()->json($response);
        
         
+    }
+
+    public function userOrderListExport(Request $request)
+    {
+
+        
+       
+ 
+         $user_id=Transaction::where('for_date',$request->for_date)
+                                ->where('user_type_id',$request->user_type_id)
+                                ->pluck('user_id')->toArray();
+         if (!empty($user_id)) {
+             if ($request->user_type_id==3) { 
+             $village_shg_id =VillageVenderMap::whereIn('vender_id',$user_id)->pluck('village_shg_id')->toArray();            
+             }elseif($request->user_type_id==2){
+              $village_shg_id =VillageFarmerMap::whereIn('farmer_id',$user_id)->pluck('village_shg_id')->toArray(); 
+             }  
+           
+            $delivery_id =DeliveryClusterMap::where('cluster_village_id',$village_shg_id)->where('user_type_id',4)->pluck('delivery_id')->toArray(); 
+                                     
+           $deliverys=User::whereIn('id',$delivery_id)->get();
+           $users=User::whereIn('id',$user_id)->get();
+
+
+            $for_date =$request->id;
+           $data =array();
+           $data['deliverys'] =$deliverys;
+           $data['users'] =$users;
+           $data['for_date'] =$request->for_date;
+           $data['user_type_id'] =$request->user_type_id;
+            $pdf = PDF::setOptions([
+                'logOutputFile' => storage_path('logs/log.htm'),
+                'tempDir' => storage_path('logs/')
+            ])
+            ->loadView('admin.order.report',$data);
+            return $pdf->stream('report.pdf');
+         } else{ 
+            return redirect()->route('admin.order.index')->with(['message'=>"Not Available",'class'=>'error']);
+         }                      
+         
     }
 
 }
