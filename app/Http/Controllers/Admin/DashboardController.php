@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\AcademicYear;
+use App\Model\Bank;
+use App\Model\BankDetail;
 use App\Model\Cashbook;
 use App\Model\ClassType;
 use App\Model\Event\EventDetails;
@@ -15,6 +17,7 @@ use App\Model\StudentAttendance;
 use App\Model\StudentFeeDetail;
 use App\Model\StudentRemark;
 use App\Model\StudentUserMap;
+use App\Model\UserDetail;
 use App\Student;
 use App\User;
 use Illuminate\Http\Request;
@@ -97,7 +100,10 @@ class DashboardController extends Controller
     public function proFileShow()
     {
         $admins = Auth::guard('admin')->user();
-         return view('admin/dashboard/profile/profile_show',compact('admins'));
+        $banks=Bank::orderBy('name','ASC')->get();
+        $userDetail=UserDetail::where('user_id',$admins->id)->first();
+        $BankDetail=BankDetail::where('user_id',$admins->id)->first();
+         return view('admin/dashboard/profile/profile_show',compact('admins','userDetail','BankDetail','banks'));
     }
     public function profileUpdate(Request $request)
     {
@@ -107,8 +113,10 @@ class DashboardController extends Controller
           
             'first_name' => 'required',
             'mobile' => 'required|digits:10',
-            'email' => 'required',
             'dob' => 'required',
+            'bank_id' => 'required',
+            'ifsc_code' => 'required',
+            'account_no' => 'required',
           
             
         ];
@@ -122,12 +130,34 @@ class DashboardController extends Controller
             return response()->json($response);// response as json
         }
         else { 
-                $admins=Admin::find($admins->id);
-                $admins->first_name=$request->first_name;
-                $admins->email=$request->email;
-                $admins->mobile=$request->mobile;
-                $admins->dob=$request->dob; 
-                $admins->save(); 
+                $admin=User::find($admins->id);
+                $admin->first_name=$request->first_name;
+                $admin->mobile_no=$request->mobile;
+                $admin->save();
+                $userDetail=UserDetail::where('user_id',$admins->id)->first();
+                if (empty($userDetail)) {
+                 $userDetails=new UserDetail(); 
+                 $userDetails->user_id=$admins->id;
+                 $userDetails->dob=$request->dob; 
+                }else{
+                $userDetails=UserDetail::find($userDetail->id);
+                $userDetails->dob=$request->dob;
+                }
+                $userDetails->save();  
+                $BankDetail=BankDetail::where('user_id',$admins->id)->first();
+                if (empty($BankDetail)) {
+                  $BankDetails=new BankDetail();
+                  $BankDetails->user_id=$admins->id;
+                  $BankDetails->bank_id=$request->bank_id;
+                  $BankDetails->ifsc_code=$request->ifsc_code; 
+                  $BankDetails->account_no=$request->account_no; 
+                }else{
+                $BankDetails=BankDetail::find($BankDetail->id);
+                $BankDetails->bank_id=$request->bank_id;
+                $BankDetails->ifsc_code=$request->ifsc_code; 
+                $BankDetails->account_no=$request->account_no; 
+                }
+                $BankDetails->save(); 
                 $response=['status'=>1,'msg'=>'Upload Successfully'];
                 return response()->json($response); 
             } 
@@ -155,7 +185,8 @@ class DashboardController extends Controller
             $response["msg"]=$errors[0];
             return response()->json($response);// response as json
         }
-        else {  
+        else {
+
                 $data = $request->image; 
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
@@ -206,7 +237,7 @@ class DashboardController extends Controller
         if (Hash::check($request->old_password, $admin->password))
         {
            $newPasswrod = Hash::make($request->password);
-            $st=Admin::find($admin->id);
+            $st=User::find($admin->id);
             $st->password =$newPasswrod ;
             $st->save();
             $response =array();

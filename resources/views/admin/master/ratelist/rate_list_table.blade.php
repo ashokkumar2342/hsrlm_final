@@ -67,8 +67,10 @@
         @endforeach
          
     </tbody>
-</table> 
+</table>
+<input type="hidden" name="status" id="status"> 
 <div class="text-center">
-	<input type="submit" name="Submit" class="btn btn-success">
+	<input type="submit" name="Submit" value="Save As Draft" class="btn btn-warning" onclick="$('#status').val(0)">
+    <input type="submit" name="Submit" value="Save Final" class="btn btn-success" onclick="$('#status').val(1)">
 </div>
         

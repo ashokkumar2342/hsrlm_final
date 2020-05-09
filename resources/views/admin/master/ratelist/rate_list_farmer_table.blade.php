@@ -11,7 +11,7 @@
     <tbody>
         @foreach ($Items as $Item)
         @php
-        	 $RateList=App\Model\RateList::where('for_date',$date)->where('items_id',$Item->id)->first(); 
+        	 $RateList=App\Model\RateList::where('for_date',$date)->where('items_id',$Item->id)->where('status',1)->first(); 
         	 $purchase_rate =0; 
            $rate =0; 
           	 if (!empty($RateList)){ 
@@ -69,10 +69,12 @@
          
     </tbody>
 </table> 
- 
+ @if (!empty($RateList))
 <div class="text-center">
 	<input type="submit" name="Submit" class="btn btn-success">
 </div>
+  
+ @endif
         
 <script>
     $(document).ready(function () { 

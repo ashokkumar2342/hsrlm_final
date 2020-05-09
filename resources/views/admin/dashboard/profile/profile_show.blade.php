@@ -48,12 +48,25 @@
                         <b>Name</b> <a class="float-right"> <input type="text" name="first_name" class="form-control" id="first_name" maxlength="50" value="{{ $admins->first_name or '' }}"> </a>
                       </li> 
                       <li class="list-group-item"> 
-                        <b>Mobile.No.</b> <a class="float-right"> <input type="text" name="mobile" class="form-control" value="{{ $admins->mobile or '' }}"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' > </a>
+                        <b>Mobile.No.</b> <a class="float-right"> <input type="text" name="mobile" class="form-control" value="{{ $admins->mobile_no or '' }}"  maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' > </a>
                       </li>
                        <li class="list-group-item"> 
-                        <b>Date of Birth</b> <a class="float-right"> <input type="date" name="dob" class="form-control" value="{{ $admins->dob }}"> </a>
+                        <b>Date of Birth</b> <a class="float-right"> <input type="date" name="dob" class="form-control" value="{{ @$userDetail->dob }}"> </a>
                       </li> <li class="list-group-item"> 
-                        <b>Email</b> <a class="float-right"> <input type="email" name="email" class="form-control" value="{{ $admins->email or '' }}" maxlength="50"> </a>
+                        <b>Bank Name</b> <a class="float-right">
+                        <select name="bank_id" class="form-control">
+                          @foreach ($banks as $bank)
+                           <option value="{{ $bank->id }}"{{ @$BankDetail->bank_id==$bank->id?'selected':''}}>{{ $bank->name }}</option>
+                          @endforeach
+                          
+                         </select> 
+                         </a>
+                      </li>
+                    </li> <li class="list-group-item"> 
+                        <b>Ifsc Code</b> <a class="float-right"> <input type="text" name="ifsc_code" class="form-control" value="{{ @$BankDetail->ifsc_code}}" maxlength="50"> </a>
+                      </li>
+                      </li> <li class="list-group-item"> 
+                        <b>Account No.</b> <a class="float-right"> <input type="text" name="account_no" class="form-control" value="{{ @$BankDetail->account_no}}" maxlength="50"> </a>
                       </li> 
                     </ul>
                      <input type="submit" value="Update" class="btn btn-success" style="margin-left: 350px">

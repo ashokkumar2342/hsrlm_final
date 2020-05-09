@@ -244,7 +244,8 @@ class MasterController extends Controller
         
     }
     public function rateListPriceStore(Request $request)
-    {   $rules=[
+    {  
+     $rules=[
              'for_date' => 'required|date', 
              'purchase_rate' => 'required',               
              'sale_rate' => 'required',               
@@ -264,6 +265,7 @@ class MasterController extends Controller
                 $RateList->items_id=$key;
                 $RateList->purchase_rate=$rate;
                 $RateList->sale_rate=$request->sale_rate[$key]; 
+                $RateList->status=$request->status; 
                 $RateList->save();
                 }
                
